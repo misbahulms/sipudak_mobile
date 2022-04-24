@@ -21,3 +21,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// I/flutter (12402): {nama: Muhammad Imanudin, email: mimdudin@gmail.com, no_hp: 123213131, alamat: sadsadadada, password: 123}
+// 2
+// I/flutter (12402): {status: true, message: data user berhasil ditambah}

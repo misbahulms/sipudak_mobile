@@ -14,6 +14,7 @@ import 'package:sipudak/theme.dart';
 import 'package:sipudak/widget/button_primary.dart';
 import 'package:sipudak/widget/logo.dart';
 import 'package:http/http.dart' as http;
+import 'package:sipudak/home.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -29,7 +30,8 @@ class _RegisterState extends State<Register> {
   TextEditingController alamatController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
-  bool _secureText = true;
+  bool _secureText = true, _isLoading = false;
+
   showHide() {
     setState(() {
       _secureText = !_secureText;
@@ -92,6 +94,10 @@ class _RegisterState extends State<Register> {
 //     }}
 
   Future registerSubmit() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // if (!_formKey.currentState!.validate()) {
@@ -104,9 +110,9 @@ class _RegisterState extends State<Register> {
       ..baseUrl = BASEURL.ipAddress
       ..connectTimeout = 10000
       ..receiveTimeout = 10000
-      ..validateStatus = (status) {
-        return status! > 0;
-      }
+      // ..validateStatus = (status) {
+      //   return status! > 0;
+      // }
       ..headers = {
         HttpHeaders.userAgentHeader: 'dio',
         'common-header': 'xx',
@@ -121,33 +127,43 @@ class _RegisterState extends State<Register> {
       });
       var response = await dio.post(BASEURL.register,
           options: Options(contentType: Headers.formUrlEncodedContentType),
-          data: {
+          data: FormData.fromMap({
             "nama": namaController.text,
             "email": emailController.text,
             "no_hp": nomorHpController.text,
             "alamat": alamatController.text,
             "password": passwordController.text,
-          });
+            "is_active": 1,
+            "role": "User",
+            "date_created": "2022-07-15 00:00:00",
+            "image": "graduate-icon-png-28-2.png"
+          }));
 
       final data = response.data;
       print(data);
-      int value = data['value'];
+      var status = data['status'];
       String message = data['message'];
       print(data);
 
-      if (value == 1) {
+      if (status) {
         await Future.wait([
           prefs.setString('nomorHp', nomorHpController.text),
           prefs.setString('password', passwordController.text),
         ]);
-        showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: Text("Information"),
-                  content: Text(message),
-                  actions: [TextButton(onPressed: () {}, child: Text("Ok"))],
-                ));
-        setState(() {});
+        setState(() {
+          _isLoading = false;
+        });
+
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+        // showDialog(
+        //     context: context,
+        //     builder: (context) => AlertDialog(
+        //           title: Text("Information"),
+        //           content: Text(message),
+        //           actions: [TextButton(onPressed: () {}, child: Text("Ok"))],
+        //         ));
+        // setState(() {});
       } else {
         showDialog(
             context: context,
@@ -163,9 +179,16 @@ class _RegisterState extends State<Register> {
                   ],
                 ));
       }
-      setState(() {});
+
+      setState(() {
+        _isLoading = false;
+      });
     } catch (e) {
       print("eror $e");
+
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -343,33 +366,45 @@ class _RegisterState extends State<Register> {
                       height: 30,
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: ButtonPrimary(
-                          text: "Registrasi",
-                          onTap: () async {
-                            if (namaController.text.isEmpty ||
-                                emailController.text.isEmpty ||
-                                nomorHpController.text.isEmpty ||
-                                alamatController.text.isEmpty ||
-                                passwordController.text.isEmpty) {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                        title: Text("Warning"),
-                                        content:
-                                            Text("Please, enter the fields"),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () {},
-                                              child: Text("Ok"))
-                                        ],
-                                      ));
-                            } else {
-                              await registerSubmit();
-                              // await submitForm();
-                            }
-                          }),
-                    ),
+                        width: MediaQuery.of(context).size.width,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width - 100,
+                          height: 50,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                if (namaController.text.isEmpty ||
+                                    emailController.text.isEmpty ||
+                                    nomorHpController.text.isEmpty ||
+                                    alamatController.text.isEmpty ||
+                                    passwordController.text.isEmpty) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            title: Text("Warning"),
+                                            content: Text(
+                                                "Please, enter the fields"),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text("Ok"))
+                                            ],
+                                          ));
+                                } else {
+                                  await registerSubmit();
+                                  // await submitForm();
+                                }
+                              },
+                              child: _isLoading
+                                  ? Center(child: CircularProgressIndicator())
+                                  : Text("Registrasi"),
+                              style: ElevatedButton.styleFrom(
+                                  primary: yellowColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20)))),
+                        )),
                     SizedBox(
                       height: 16,
                     ),
@@ -392,7 +427,7 @@ class _RegisterState extends State<Register> {
                                 MaterialPageRoute(
                                     builder: (context) => Login()));
                           },
-                          child: const Text('Login'),
+                          child: Text('Login'),
                         ),
                       ],
                     ),

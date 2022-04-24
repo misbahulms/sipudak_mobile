@@ -22,7 +22,8 @@ class _LoginState extends State<Login> {
   TextEditingController passwordController = TextEditingController();
 
   var whiteColor;
-  bool _secureText = true;
+  bool _secureText = true, _isLoading = false;
+
   showHide() {
     setState(() {
       _secureText = !_secureText;
@@ -41,6 +42,9 @@ class _LoginState extends State<Login> {
 
     String? nomorHp = prefs.getString('nomorHp');
     String? password = prefs.getString('password');
+
+    print("check noHp: $nomorHp");
+    print("check password: $password");
 
     if (nomorHp != null && password != null) {
       Navigator.push(
@@ -62,6 +66,9 @@ class _LoginState extends State<Login> {
   // }
 
   Future signIn() async {
+    setState(() {
+      _isLoading = true;
+    });
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var dio = Dio();
@@ -106,6 +113,7 @@ class _LoginState extends State<Login> {
         ]);
 
         setState(() {
+          _isLoading = false;
           //if there is no error, get the user's accesstoken and pass it to HomeScreen
           String accessToken = responseData.data['data'];
         });
@@ -116,6 +124,10 @@ class _LoginState extends State<Login> {
 
         print(responseData.data['message']);
       } else {
+        setState(() {
+          _isLoading = false;
+        });
+
         print(responseData.data['message']);
         //if an error occurs, show snackbar with error message
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -260,17 +272,22 @@ class _LoginState extends State<Login> {
                   height: 30,
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: ButtonPrimary(
-                    text: "Login",
-                    onTap: () async {
-                      await signIn();
-                      // login();
-                      // Navigator.pushReplacement(context,
-                      //     MaterialPageRoute(builder: (context) => Login()));
-                    },
-                  ),
-                ),
+                    width: MediaQuery.of(context).size.width,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width - 100,
+                      height: 50,
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            await signIn();
+                          },
+                          child: _isLoading
+                              ? Center(child: CircularProgressIndicator())
+                              : Text("Login"),
+                          style: ElevatedButton.styleFrom(
+                              primary: yellowColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)))),
+                    )),
                 SizedBox(
                   height: 16,
                 ),

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sipudak/theme.dart';
 import 'package:sipudak/widget/button_primary.dart';
 import 'package:sipudak/widget/my_header.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import './login.dart';
 
 // class Profil extends StatefulWidget {
 //   const Profil({Key? key}) : super(key: key);
@@ -158,15 +161,25 @@ class Profil extends StatelessWidget {
             width: 100,
             child: ButtonPrimary(
               text: "Logout",
-              onTap: () {
-                // Navigator.pushReplacement(context,
-                //     MaterialPageRoute(builder: (context) => Login()));
+              onTap: () async {
+                await removePrefs().then((_) {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Login()));
+                });
               },
             ),
+          ),
+           SizedBox(
+            height: 20,
           ),
         ],
       ),
     );
+  }
+
+  Future removePrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
   }
 }
 
