@@ -416,7 +416,7 @@ class _RegisterState extends State<Register> {
                           style: lightTextStyle.copyWith(
                               fontSize: 15, color: greyLightColor),
                         ),
-                        TextButton(
+                        TextButton(    
                           style: TextButton.styleFrom(
                             primary: blueColor,
                             textStyle: const TextStyle(fontSize: 15),

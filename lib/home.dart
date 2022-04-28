@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sipudak/pages/beranda.dart';
 import 'package:sipudak/pages/profil.dart';
 import 'package:sipudak/theme.dart';
+import 'dart:io';
+import 'package:dio/dio.dart';
+
+import './network/api/url_api.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,6 +16,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectIndex = 0;
+  bool _isLoading = false;
+  var _jumlahKasus = 0;
 
   final _pageList = [
     Beranda(),
@@ -23,6 +29,7 @@ class _HomePageState extends State<HomePage> {
       _selectIndex = index;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
