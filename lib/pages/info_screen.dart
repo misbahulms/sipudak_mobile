@@ -41,7 +41,7 @@ class InfoScreen extends StatelessWidget {
                           image: "assets/Perempuan.png",
                           title: "Perempuan",
                           onTap: () {
-                            Navigator.pushReplacement(
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Perempuan()));
@@ -54,7 +54,7 @@ class InfoScreen extends StatelessWidget {
                           image: "assets/Anak.png",
                           title: "Anak-Anak",
                           onTap: () {
-                            Navigator.pushReplacement(
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Anak()));
@@ -65,7 +65,7 @@ class InfoScreen extends StatelessWidget {
                           image: "assets/Laporkan 2.png",
                           title: "Laporkan !",
                           onTap: () {
-                            Navigator.pushReplacement(
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Pelaporan()));
@@ -89,7 +89,7 @@ class InfoScreen extends StatelessWidget {
                       judul: "Panduan Pelaporan",
                       title: "Laporkan tindak kekerasan yang sedang anda alami",
                       onTap: () {
-                        Navigator.pushReplacement(context,
+                        Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Panduan()));
                       },
                     ),
@@ -99,7 +99,7 @@ class InfoScreen extends StatelessWidget {
                       title:
                           "Peraturan Hukum disini menjelaskan hal-hal yang menjadi dasar pelaporan kasus",
                       onTap: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Peraturan()));

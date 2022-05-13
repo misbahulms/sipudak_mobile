@@ -32,11 +32,12 @@ class MyHeaderPL extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: IconButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => InfoScreen(),
-                          ));
+                      Navigator.of(context).pop();
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => InfoScreen(),
+                      //     ));
                     },
                     icon: Icon(Icons.arrow_back_outlined),
                     color: Colors.white,

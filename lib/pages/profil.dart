@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sipudak/theme.dart';
 import 'package:sipudak/widget/button_primary.dart';
-import 'package:sipudak/widget/my_header.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import '../network/api/url_api.dart';
 
 import './login.dart';
 
@@ -64,15 +66,81 @@ import './login.dart';
 //   }
 // }
 
-class Profil extends StatelessWidget {
-  const Profil({
-    Key? key,
-  }) : super(key: key);
+class Profil extends StatefulWidget {
+  const Profil({Key? key}) : super(key: key);
+
+  @override
+  State<Profil> createState() => _ProfilState();
+}
+
+class _ProfilState extends State<Profil> {
+  bool _isLoading = false;
+  var _data;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfil();
+  }
+
+  Future getProfil() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    var dio = Dio();
+    dio.options
+      ..baseUrl = BASEURL.ipAddress
+      ..connectTimeout = 10000
+      ..receiveTimeout = 10000
+      // ..queryParameters = {"jk": "laki-laki"}
+      // ..validateStatus = (status) {
+      //   return status! > 0;
+      // }
+      ..headers = {
+        HttpHeaders.userAgentHeader: 'dio',
+        'common-header': 'xx',
+      };
+    try {
+      var response = await dio.get(
+        "${BASEURL.profil}",
+        options: Options(contentType: Headers.formUrlEncodedContentType),
+      );
+
+      final data = response.data;
+      var status = response.statusCode;
+      // String message = data['message'];
+      print(data);
+
+      if (status == 200) {
+        setState(() {
+          _isLoading = false;
+          _data = data;
+        });
+
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => HomePage()));
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      print("eror $e");
+
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+        body: RefreshIndicator(
+      onRefresh: () async => await getProfil(),
+      child: ListView(
         children: <Widget>[
           ClipPath(
             clipper: MyClipper(),
@@ -92,31 +160,35 @@ class Profil extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  Center(
-                      child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: 150,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 5,
+                  _isLoading
+                      ? Center(child: CircularProgressIndicator())
+                      : Center(
+                          child: Column(
+                          children: <Widget>[
+                            Container(
+                              height: 150,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 5,
+                                  ),
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage("assets/profil.png"))),
                             ),
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage("assets/profil.png"))),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Misbahulms",
-                        style: kTitleTextstyle.copyWith(color: Colors.white),
-                      )
-                    ],
-                  ))
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "${_data['nama']}",
+                              style: kTitleTextstyle.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ))
                 ],
               ),
             ),
@@ -131,7 +203,10 @@ class Profil extends StatelessWidget {
                     "Email",
                     style: boldTextStyle,
                   ),
-                  subtitle: Text("misbahulms16@gmail.com"),
+                  subtitle: Text(
+                      _data == null 
+                          ? ""
+                          : _data['email']),
                   leading: Icon(Icons.email),
                 ),
                 ListTile(
@@ -139,7 +214,10 @@ class Profil extends StatelessWidget {
                     "Nomor Hp",
                     style: boldTextStyle,
                   ),
-                  subtitle: Text("08981385790"),
+                  subtitle: Text(
+                      _data == null 
+                          ? ""
+                          : _data['no_hp']),
                   leading: Icon(Icons.phone),
                 ),
                 ListTile(
@@ -147,7 +225,10 @@ class Profil extends StatelessWidget {
                     "Alamat",
                     style: boldTextStyle,
                   ),
-                  subtitle: Text("Tanjung Raya 2"),
+                  subtitle: Text(
+                      _data== null 
+                          ? ""
+                          : _data['alamat']),
                   leading: Icon(Icons.location_on),
                 ),
               ],
@@ -169,12 +250,12 @@ class Profil extends StatelessWidget {
               },
             ),
           ),
-           SizedBox(
+          SizedBox(
             height: 20,
           ),
         ],
       ),
-    );
+    ));
   }
 
   Future removePrefs() async {

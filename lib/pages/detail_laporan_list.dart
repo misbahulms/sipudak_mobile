@@ -19,21 +19,15 @@ import 'package:sipudak/network/api/url_api.dart';
 import '../theme.dart';
 import 'info_screen.dart';
 
-class Pelaporan extends StatefulWidget {
-  const Pelaporan({Key? key}) : super(key: key);
+class DetailLaporanList extends StatefulWidget {
+  Map data;
+  DetailLaporanList({Key? key, required this.data}) : super(key: key);
 
   @override
-  _PelaporanState createState() => _PelaporanState();
+  _DetailLaporanListState createState() => _DetailLaporanListState();
 }
 
-class _PelaporanState extends State<Pelaporan> {
-  bool _secureText = true;
-  showHide() {
-    setState(() {
-      _secureText = !_secureText;
-    });
-  }
-
+class _DetailLaporanListState extends State<DetailLaporanList> {
   bool _isLoading = false;
 
   File? image;
@@ -41,18 +35,47 @@ class _PelaporanState extends State<Pelaporan> {
   var _tempatKejadian = TextEditingController();
   var _alamatKejadian = TextEditingController();
   var _hubunganDgnKorban = TextEditingController();
-  var _tanggalPelaporan = TextEditingController();
+  var _tanggalDetailLaporanList = TextEditingController();
   var _alamatPelapor = TextEditingController();
   var _nomorHp = TextEditingController();
   var _desaKejadian = TextEditingController();
   var _kronologisKejadian = TextEditingController();
+  bool _secureText = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _korbanKekerasan.text =
+        "Korban Kekerasan:  ${widget.data['korban_kekerasan']}";
+    _tempatKejadian.text =
+        "Tempat Kejadian:  ${widget.data['tempat_kejadian']}";
+    _alamatKejadian.text =
+        "Alamat Kejadian:  ${widget.data['alamat_kejadian']}";
+    _hubunganDgnKorban.text =
+        "Hubungan dengan Korban:  ${widget.data['hubungan_dengan_korban']}";
+    _tanggalDetailLaporanList.text =
+        "Tanggal Pelaporan:  ${widget.data['tanggal_pelaporan']}";
+    _alamatPelapor.text = "Alamat Pelapor:  ${widget.data['alamat_pelapor']}";
+    _nomorHp.text = "Nomor HP:  ${widget.data['no_hp']}";
+    _desaKejadian.text = "Desa Kejadian:  ${widget.data['id_desa']}";
+    _kronologisKejadian.text =
+        "Kronologis Kejadian:  ${widget.data['kronologis_kejadian']}";
+  }
+
+  showHide() {
+    setState(() {
+      _secureText = !_secureText;
+    });
+  }
 
   Future _validateAndSubmit(BuildContext context) async {
     if (_korbanKekerasan.text.isEmpty &&
         _tempatKejadian.text.isEmpty &&
         _alamatKejadian.text.isEmpty &&
         _hubunganDgnKorban.text.isEmpty &&
-        _tanggalPelaporan.text.isEmpty &&
+        _tanggalDetailLaporanList.text.isEmpty &&
         _alamatKejadian.text.isEmpty &&
         _nomorHp.text.isEmpty &&
         _desaKejadian.text.isEmpty &&
@@ -90,9 +113,9 @@ class _PelaporanState extends State<Pelaporan> {
       // 'id_pelapor': "1",
       'id_user': "1",
       'alamat_pelapor': _alamatPelapor.text,
-      'no_hp': _nomorHp.text, 
+      'no_hp': _nomorHp.text,
       'korban_kekerasan': _korbanKekerasan.text,
-      'tanggal_pelaporan': "2021-07-15 00:00:00",
+      'tanggal_DetailLaporanList': "2021-07-15 00:00:00",
       'tempat_kejadian': _tempatKejadian.text,
       'alamat_kejadian': _alamatKejadian.text,
       'kronologis_kejadian': _kronologisKejadian.text,
@@ -111,7 +134,7 @@ class _PelaporanState extends State<Pelaporan> {
           'alamat_pelapor': _alamatPelapor.text,
           'no_hp': _nomorHp.text,
           'korban_kekerasan': _korbanKekerasan.text,
-          'tanggal_pelaporan': "2021-07-15 00:00:00",
+          'tanggal_DetailLaporanList': "2021-07-15 00:00:00",
           'tempat_kejadian': _tempatKejadian.text,
           'alamat_kejadian': _alamatKejadian.text,
           'kronologis_kejadian': _kronologisKejadian.text,
@@ -211,14 +234,14 @@ class _PelaporanState extends State<Pelaporan> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Form Pelaporan",
+                      "Detil Laporan",
                       style: regulerTextStyle.copyWith(fontSize: 20),
                     ),
                     SizedBox(
                       height: 8,
                     ),
                     Text(
-                      "Silakan Isi Data Pelaporan Anda",
+                      "Berikut adalah detil laporan",
                       style: regulerTextStyle.copyWith(
                           fontSize: 15, color: greyBoldColor),
                     ),
@@ -241,6 +264,7 @@ class _PelaporanState extends State<Pelaporan> {
                           color: whiteColor),
                       width: MediaQuery.of(context).size.width,
                       child: TextField(
+                        enabled: false,
                         controller: _korbanKekerasan,
                         decoration: InputDecoration(
                             border: InputBorder.none,
@@ -267,6 +291,7 @@ class _PelaporanState extends State<Pelaporan> {
                           color: whiteColor),
                       width: MediaQuery.of(context).size.width,
                       child: TextField(
+                        enabled: false,
                         controller: _tempatKejadian,
                         decoration: InputDecoration(
                             border: InputBorder.none,
@@ -293,6 +318,7 @@ class _PelaporanState extends State<Pelaporan> {
                           color: whiteColor),
                       width: MediaQuery.of(context).size.width,
                       child: TextField(
+                        enabled: false,
                         controller: _alamatKejadian,
                         decoration: InputDecoration(
                             border: InputBorder.none,
@@ -319,6 +345,7 @@ class _PelaporanState extends State<Pelaporan> {
                           color: whiteColor),
                       width: MediaQuery.of(context).size.width,
                       child: TextField(
+                        enabled: false,
                         controller: _hubunganDgnKorban,
                         decoration: InputDecoration(
                             border: InputBorder.none,
@@ -345,10 +372,11 @@ class _PelaporanState extends State<Pelaporan> {
                           color: whiteColor),
                       width: MediaQuery.of(context).size.width,
                       child: TextField(
-                        controller: _tanggalPelaporan,
+                        enabled: false,
+                        controller: _tanggalDetailLaporanList,
                         decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Tanggal Pelaporan',
+                            hintText: 'Tanggal DetailLaporanList',
                             hintStyle: lightTextStyle.copyWith(
                                 fontSize: 15, color: greyLightColor)),
                       ),
@@ -371,6 +399,7 @@ class _PelaporanState extends State<Pelaporan> {
                           color: whiteColor),
                       width: MediaQuery.of(context).size.width,
                       child: TextField(
+                        enabled: false,
                         controller: _alamatPelapor,
                         decoration: InputDecoration(
                             border: InputBorder.none,
@@ -398,6 +427,7 @@ class _PelaporanState extends State<Pelaporan> {
                       width: MediaQuery.of(context).size.width,
                       child: TextField(
                         controller: _nomorHp,
+                        enabled: false,
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Nomor Hp',
@@ -427,6 +457,7 @@ class _PelaporanState extends State<Pelaporan> {
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Desa Kejadian',
+                            enabled: false,
                             hintStyle: lightTextStyle.copyWith(
                                 fontSize: 15, color: greyLightColor)),
                       ),
@@ -437,7 +468,7 @@ class _PelaporanState extends State<Pelaporan> {
 
                     Container(
                       padding: EdgeInsets.only(left: 16),
-                      height: 50,
+                      height: 200,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
@@ -450,10 +481,12 @@ class _PelaporanState extends State<Pelaporan> {
                           color: whiteColor),
                       width: MediaQuery.of(context).size.width,
                       child: TextField(
+                        maxLines: 5,
                         controller: _kronologisKejadian,
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Kronologis Kejadian',
+                            enabled: false,
                             hintStyle: lightTextStyle.copyWith(
                                 fontSize: 15, color: greyLightColor)),
                       ),
@@ -572,7 +605,10 @@ class _PelaporanState extends State<Pelaporan> {
                             await _validateAndSubmit(context);
                           },
                           child: _isLoading
-                              ? Center(child: CircularProgressIndicator(color: Colors.black,))
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                  color: Colors.black,
+                                ))
                               : Text('Laporkan !',
                                   style: TextStyle(
                                       color: Colors.black,

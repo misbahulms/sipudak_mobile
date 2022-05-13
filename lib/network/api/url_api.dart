@@ -5,4 +5,5 @@ class BASEURL {
   static String register = "/api/user";
   static String korban = "/api/korban";
   static String pelaporan = "/api/pelaporan";
+  static String profil = "/api/user/profil/2";
 }

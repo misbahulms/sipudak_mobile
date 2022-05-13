@@ -31,11 +31,12 @@ class MyHeaderInfo extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: IconButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Beranda(),
-                          ));
+                      Navigator.of(context).pop();
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => Beranda(),
+                      //     ));
                     },
                     icon: Icon(Icons.arrow_back_outlined),
                     color: Colors.white,

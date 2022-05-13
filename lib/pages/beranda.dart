@@ -5,6 +5,7 @@ import 'package:sipudak/widget/kasus.dart';
 import 'package:sipudak/widget/my_header.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import './laporan_list_page.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import '../network/api/url_api.dart';
@@ -18,7 +19,7 @@ class Beranda extends StatefulWidget {
 
 class _BerandaState extends State<Beranda> {
   bool _isLoading = false;
-  var _jumlahKasus = 0;
+  var _jumlahKasus = [];
 
   Future getLaporanKasus() async {
     setState(() {
@@ -30,6 +31,7 @@ class _BerandaState extends State<Beranda> {
       ..baseUrl = BASEURL.ipAddress
       ..connectTimeout = 10000
       ..receiveTimeout = 10000
+      // ..queryParameters = {"jk": "laki-laki"}
       // ..validateStatus = (status) {
       //   return status! > 0;
       // }
@@ -39,7 +41,7 @@ class _BerandaState extends State<Beranda> {
       };
     try {
       var response = await dio.get(
-        BASEURL.korban,
+        "${BASEURL.korban}",
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );
 
@@ -79,6 +81,23 @@ class _BerandaState extends State<Beranda> {
 
   @override
   Widget build(BuildContext context) {
+    var sejangkung = <LatLng>[];
+    var selakau_timur = <LatLng>[];
+    var selakau = <LatLng>[];
+    var semparuk = <LatLng>[];
+    var subah = <LatLng>[];
+    var tangaran = <LatLng>[];
+    var tebas = <LatLng>[];
+    var tekarang = <LatLng>[];
+    var teluk_keramat = <LatLng>[];
+    var galing = <LatLng>[
+      LatLng(1.741976158000087, 109.40636167700002),
+      LatLng(1.741186173000093, 109.40793512800009),
+      LatLng(1.741007741000073, 109.408290519),
+      LatLng(1.738392181000021, 109.41253437300006),
+      LatLng(1.737908537000061, 109.41417360300005),
+    ];
+
     return SafeArea(
       child: Scaffold(
         body: RefreshIndicator(
@@ -146,18 +165,28 @@ class _BerandaState extends State<Beranda> {
                                 children: <Widget>[
                                   Kasus(
                                     color: kInfectedColor,
-                                    jumlah: _jumlahKasus,
+                                    jumlah: _jumlahKasus.toList().length,
                                     title: "Jumlah Kasus",
                                   ),
                                   Kasus(
                                     color: kRecovercolor,
-                                    jumlah: 100,
+                                    jumlah: _jumlahKasus
+                                        .where((element) =>
+                                            element['jenis_kelamin'] ==
+                                            "Perempuan")
+                                        .toList()
+                                        .length,
                                     title: "Perempuan",
                                   ),
                                   Kasus(
                                     color: kDeathColor,
-                                    jumlah: 100,
-                                    title: "Anak",
+                                    jumlah: _jumlahKasus
+                                        .where((element) =>
+                                            element['jenis_kelamin'] ==
+                                            "Laki-Laki")
+                                        .toList()
+                                        .length,
+                                    title: "Laki-laki",
                                   ),
                                 ],
                               ),
@@ -180,20 +209,56 @@ class _BerandaState extends State<Beranda> {
                         ],
                       ),
                       Container(
-                        height: 400,
-                        child: FlutterMap(
-                          options: MapOptions(
-                            center: LatLng(1.3523149, 109.2868825),
-                            zoom: 18.0,
-                          ),
-                          layers: [
-                            TileLayerOptions(
-                                urlTemplate:
-                                    'http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',
-                                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'])
-                          ],
-                        ),
-                      ),
+                          height: 400,
+                          child: FlutterMap(
+                              options: MapOptions(
+                                // center: LatLng(51.5, -0.09),
+                                center: LatLng(1.3523149, 109.2868825),
+                                zoom: 9.0,
+                                // zoom: 18.0,
+                              ),
+                              layers: [
+                                TileLayerOptions(
+                                    urlTemplate:
+                                        // 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                    // subdomains: ['a', 'b', 'c']),
+                                'http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',
+                                subdomains: ['mt0', 'mt1', 'mt2', 'mt3']),
+                                PolygonLayerOptions(
+                                  polygons: [
+                                    Polygon(
+                                      points: galing,
+                                      // isFilled: false, // By default it's false
+                                      color: Colors.purple,
+                                      borderColor: Colors.red,
+                                      borderStrokeWidth: 4.0,
+                                    ),
+                                    // Polygon(
+                                    //   points: sejangkung,
+                                    //   // isFilled: true,
+                                    //   color: Colors.purple,
+                                    //   borderColor: Colors.purple,
+                                    //   borderStrokeWidth: 4.0,
+                                    // ),
+                                    // Polygon(
+                                    //   points: selakau_timur,
+                                    //   // isFilled: false,
+                                    //   isDotted: true,
+                                    //   borderColor: Colors.green,
+                                    //   borderStrokeWidth: 4.0,
+                                    // ),
+                                    // Polygon(
+                                    //   points: semparuk,
+                                    //   // isFilled: true,
+                                    //   isDotted: true,
+                                    //   borderStrokeWidth: 4.0,
+                                    //   borderColor: Colors.lightBlue,
+                                    //   color: Colors.lightBlue,
+                                    // ),
+                                  ],
+                                ),
+                              ]))
+
                       // Container(
                       //   margin: EdgeInsets.only(top: 20),
                       //   padding: EdgeInsets.all(20),

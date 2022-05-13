@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:sipudak/theme.dart';
+import '../pages/laporan_list_page.dart';
 
 class MyHeader extends StatelessWidget {
   final String image;
@@ -29,7 +30,14 @@ class MyHeader extends StatelessWidget {
             Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
-                    onPressed: () {}, icon: Icon(Icons.notifications))),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  LaporanListPage()));
+                    },
+                    icon: Icon(Icons.notifications))),
             SizedBox(
               height: 15,
             ),
