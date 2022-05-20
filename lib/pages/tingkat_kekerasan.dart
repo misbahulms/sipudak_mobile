@@ -1,346 +1,509 @@
-import 'package:fl_chart/fl_chart.dart';
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
-import 'package:sipudak/widget/my_headerPL.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:pie_chart/pie_chart.dart';
+
+// void main() {
+//   runApp(KekerasanChart());
+// }
+
+// class KekerasanChart extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'Pie Chart Demo',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blueGrey,
+//       ),
+//       darkTheme: ThemeData(
+//         primarySwatch: Colors.blueGrey,
+//         brightness: Brightness.dark,
+//       ),
+//       home: KekerasanChart(),
+//     );
+//   }
+// }
+
+enum LegendShape { Circle, Rectangle }
 
 class KekerasanChart extends StatefulWidget {
-  const KekerasanChart({Key? key}) : super(key: key);
-
   @override
-  State<StatefulWidget> createState() => BarChartSample2State();
+  _KekerasanChartState createState() => _KekerasanChartState();
 }
 
-class BarChartSample2State extends State<KekerasanChart> {
-  final Color leftBarColor = const Color(0xff53fdd7);
-  final Color rightBarColor = const Color(0xffff5182);
-  final double width = 7;
+class _KekerasanChartState extends State<KekerasanChart> {
+  final dataMap = <String, double>{
+    "Galing": 0,
+    "Jawai": 3,
+    "Jawai Selatan": 2,
+    "Paloh": 3,
+    "Pemangkat": 2,
+    "Sajad": 2,
+    "Sajingan Besar": 0,
+    "Salatiga": 3,
+    "Sambas": 4,
+    "Sebawi": 0,
+    "Sejangkung": 4,
+    "Selakau": 5,
+    "Selakau TImur": 2,
+    "Semparuk": 1,
+    "Subah": 3,
+    "Tangaran": 1,
+    "Tebas": 8,
+    "Tekarang": 2,
+    "Teluk Keramat": 4,
+  };
 
-  late List<BarChartGroupData> rawBarGroups;
-  late List<BarChartGroupData> showingBarGroups;
+  final legendLabels = <String, String>{
+    "Galing": "Flutter legend",
+    "React": "React legend",
+    "Xamarin": "Xamarin legend",
+    "Ionic": "Ionic legend",
+  };
 
-  int touchedGroupIndex = -1;
+  final colorList = <Color>[
+    Color(0xfffdcb6e),
+    Color(0xff0984e3),
+    Color(0xfffd79a8),
+    Color(0xffe17055),
+    Color(0xff6c5ce7),
+    Color.fromRGBO(429, 182, 205, 1),
+    Color.fromRGBO(329, 182, 205, 1),
+    Color.fromRGBO(229, 182, 205, 1),
+    Color.fromRGBO(254, 154, 92, 1),
+    Color.fromRGBO(223, 250, 92, 1),
+    Color.fromRGBO(191, 353, 199, 1),
+    Color.fromRGBO(125, 63, 62, 1.0),
+    Color.fromRGBO(213, 140, 93, 1),
+    Color.fromRGBO(254, 154, 92, 1),
+    Color.fromRGBO(175, 63, 62, 1.0),
+    Color.fromRGBO(91, 253, 199, 1),
+    Color.fromRGBO(129, 182, 205, 1),
+    Color.fromRGBO(223, 250, 92, 1),
+    Color.fromRGBO(129, 250, 112, 1),
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    final barGroup1 = makeGroupData(0, 5, 12);
-    final barGroup2 = makeGroupData(1, 16, 12);
-    final barGroup3 = makeGroupData(2, 18, 5);
-    final barGroup4 = makeGroupData(3, 20, 16);
-    final barGroup5 = makeGroupData(4, 17, 6);
-    final barGroup6 = makeGroupData(5, 19, 1.5);
-    final barGroup7 = makeGroupData(6, 10, 1.5);
+  final gradientList = <List<Color>>[
+    [
+      Color.fromRGBO(223, 250, 92, 1),
+      Color.fromRGBO(129, 250, 112, 1),
+    ],
+    [
+      Color.fromRGBO(129, 182, 205, 1),
+      Color.fromRGBO(91, 253, 199, 1),
+    ],
+    [
+      Color.fromRGBO(175, 63, 62, 1.0),
+      Color.fromRGBO(254, 154, 92, 1),
+    ]
+  ];
+  ChartType? _chartType = ChartType.disc;
+  bool _showCenterText = true;
+  double? _ringStrokeWidth = 32;
+  double? _chartLegendSpacing = 32;
 
-    final items = [
-      barGroup1,
-      barGroup2,
-      barGroup3,
-      barGroup4,
-      barGroup5,
-      barGroup6,
-      barGroup7,
-    ];
+  bool _showLegendsInRow = false;
+  bool _showLegends = true;
+  bool _showLegendLabel = false;
 
-    rawBarGroups = items;
+  bool _showChartValueBackground = true;
+  bool _showChartValues = true;
+  bool _showChartValuesInPercentage = false;
+  bool _showChartValuesOutside = false;
 
-    showingBarGroups = rawBarGroups;
-  }
+  bool _showGradientColors = false;
+
+  LegendShape? _legendShape = LegendShape.Circle;
+  LegendPosition? _legendPosition = LegendPosition.bottom;
+
+  int key = 0;
 
   @override
   Widget build(BuildContext context) {
+    final chart = PieChart(
+      key: ValueKey(key),
+      dataMap: dataMap,
+      animationDuration: Duration(milliseconds: 800),
+      chartLegendSpacing: _chartLegendSpacing!,
+      chartRadius: math.min(MediaQuery.of(context).size.width / 1.3, 300),
+      colorList: colorList,
+      initialAngleInDegree: 0,
+      chartType: _chartType!,
+      centerText: _showCenterText ? "SAMBAS" : null,
+      legendLabels: _showLegendLabel ? legendLabels : {},
+      legendOptions: LegendOptions(
+        showLegendsInRow: _showLegendsInRow,
+        legendPosition: _legendPosition!,
+        showLegends: _showLegends,
+        legendShape: _legendShape == LegendShape.Circle
+            ? BoxShape.circle
+            : BoxShape.rectangle,
+        legendTextStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      chartValuesOptions: ChartValuesOptions(
+        showChartValueBackground: _showChartValueBackground,
+        showChartValues: _showChartValues,
+        showChartValuesInPercentage: _showChartValuesInPercentage,
+        showChartValuesOutside: _showChartValuesOutside,
+      ),
+      ringStrokeWidth: _ringStrokeWidth!,
+      emptyColor: Colors.grey,
+      gradientList: _showGradientColors ? gradientList : null,
+      emptyColorGradient: [
+        Color(0xff6c5ce7),
+        Colors.blue,
+      ],
+      baseChartColor: Colors.transparent,
+    );
+    // final settings = SingleChildScrollView(
+    //   child: Card(
+    //     margin: EdgeInsets.all(12),
+    //     child: Column(
+    //       children: [
+    //         SwitchListTile(
+    //           value: _showGradientColors,
+    //           title: Text("Show Gradient Colors"),
+    //           onChanged: (val) {
+    //             setState(() {
+    //               _showGradientColors = val;
+    //             });
+    //           },
+    //         ),
+    //         ListTile(
+    //           title: Text(
+    //             'Pie Chart Options'.toUpperCase(),
+    //             style: Theme.of(context).textTheme.overline!.copyWith(
+    //                   fontSize: 12,
+    //                   fontWeight: FontWeight.bold,
+    //                 ),
+    //           ),
+    //         ),
+    //         ListTile(
+    //           title: Text("chartType"),
+    //           trailing: Padding(
+    //             padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    //             child: DropdownButton<ChartType>(
+    //               value: _chartType,
+    //               items: [
+    //                 DropdownMenuItem(
+    //                   child: Text("disc"),
+    //                   value: ChartType.disc,
+    //                 ),
+    //                 DropdownMenuItem(
+    //                   child: Text("ring"),
+    //                   value: ChartType.ring,
+    //                 ),
+    //               ],
+    //               onChanged: (val) {
+    //                 setState(() {
+    //                   _chartType = val;
+    //                 });
+    //               },
+    //             ),
+    //           ),
+    //         ),
+    //         ListTile(
+    //           title: Text("ringStrokeWidth"),
+    //           trailing: Padding(
+    //             padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    //             child: DropdownButton<double>(
+    //               value: _ringStrokeWidth,
+    //               disabledHint: Text("select chartType.ring"),
+    //               items: [
+    //                 DropdownMenuItem(
+    //                   child: Text("16"),
+    //                   value: 16,
+    //                 ),
+    //                 DropdownMenuItem(
+    //                   child: Text("32"),
+    //                   value: 32,
+    //                 ),
+    //                 DropdownMenuItem(
+    //                   child: Text("48"),
+    //                   value: 48,
+    //                 ),
+    //               ],
+    //               onChanged: (_chartType == ChartType.ring)
+    //                   ? (val) {
+    //                       setState(() {
+    //                         _ringStrokeWidth = val;
+    //                       });
+    //                     }
+    //                   : null,
+    //             ),
+    //           ),
+    //         ),
+    //         SwitchListTile(
+    //           value: _showCenterText,
+    //           title: Text("showCenterText"),
+    //           onChanged: (val) {
+    //             setState(() {
+    //               _showCenterText = val;
+    //             });
+    //           },
+    //         ),
+    //         ListTile(
+    //           title: Text("chartLegendSpacing"),
+    //           trailing: Padding(
+    //             padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    //             child: DropdownButton<double>(
+    //               value: _chartLegendSpacing,
+    //               disabledHint: Text("select chartType.ring"),
+    //               items: [
+    //                 DropdownMenuItem(
+    //                   child: Text("16"),
+    //                   value: 16,
+    //                 ),
+    //                 DropdownMenuItem(
+    //                   child: Text("32"),
+    //                   value: 32,
+    //                 ),
+    //                 DropdownMenuItem(
+    //                   child: Text("48"),
+    //                   value: 48,
+    //                 ),
+    //                 DropdownMenuItem(
+    //                   child: Text("64"),
+    //                   value: 64,
+    //                 ),
+    //               ],
+    //               onChanged: (val) {
+    //                 setState(() {
+    //                   _chartLegendSpacing = val;
+    //                 });
+    //               },
+    //             ),
+    //           ),
+    //         ),
+    //         ListTile(
+    //           title: Text(
+    //             'Legend Options'.toUpperCase(),
+    //             style: Theme.of(context).textTheme.overline!.copyWith(
+    //                   fontSize: 12,
+    //                   fontWeight: FontWeight.bold,
+    //                 ),
+    //           ),
+    //         ),
+    //         SwitchListTile(
+    //           value: _showLegendsInRow,
+    //           title: Text("showLegendsInRow"),
+    //           onChanged: (val) {
+    //             setState(() {
+    //               _showLegendsInRow = val;
+    //             });
+    //           },
+    //         ),
+    //         SwitchListTile(
+    //           value: _showLegends,
+    //           title: Text("showLegends"),
+    //           onChanged: (val) {
+    //             setState(() {
+    //               _showLegends = val;
+    //             });
+    //           },
+    //         ),
+    //         SwitchListTile(
+    //           value: _showLegendLabel,
+    //           title: Text("showLegendLabels"),
+    //           onChanged: (val) {
+    //             setState(() {
+    //               _showLegendLabel = val;
+    //             });
+    //           },
+    //         ),
+    //         ListTile(
+    //           title: Text("legendShape"),
+    //           trailing: Padding(
+    //             padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    //             child: DropdownButton<LegendShape>(
+    //               value: _legendShape,
+    //               items: [
+    //                 DropdownMenuItem(
+    //                   child: Text("BoxShape.circle"),
+    //                   value: LegendShape.Circle,
+    //                 ),
+    //                 DropdownMenuItem(
+    //                   child: Text("BoxShape.rectangle"),
+    //                   value: LegendShape.Rectangle,
+    //                 ),
+    //               ],
+    //               onChanged: (val) {
+    //                 setState(() {
+    //                   _legendShape = val;
+    //                 });
+    //               },
+    //             ),
+    //           ),
+    //         ),
+    //         ListTile(
+    //           title: Text("legendPosition"),
+    //           trailing: Padding(
+    //             padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    //             child: DropdownButton<LegendPosition>(
+    //               value: _legendPosition,
+    //               items: [
+    //                 DropdownMenuItem(
+    //                   child: Text("left"),
+    //                   value: LegendPosition.left,
+    //                 ),
+    //                 DropdownMenuItem(
+    //                   child: Text("right"),
+    //                   value: LegendPosition.right,
+    //                 ),
+    //                 DropdownMenuItem(
+    //                   child: Text("top"),
+    //                   value: LegendPosition.top,
+    //                 ),
+    //                 DropdownMenuItem(
+    //                   child: Text("bottom"),
+    //                   value: LegendPosition.bottom,
+    //                 ),
+    //               ],
+    //               onChanged: (val) {
+    //                 setState(() {
+    //                   _legendPosition = val;
+    //                 });
+    //               },
+    //             ),
+    //           ),
+    //         ),
+    //         ListTile(
+    //           title: Text(
+    //             'Chart values Options'.toUpperCase(),
+    //             style: Theme.of(context).textTheme.overline!.copyWith(
+    //                   fontSize: 12,
+    //                   fontWeight: FontWeight.bold,
+    //                 ),
+    //           ),
+    //         ),
+    //         SwitchListTile(
+    //           value: _showChartValueBackground,
+    //           title: Text("showChartValueBackground"),
+    //           onChanged: (val) {
+    //             setState(() {
+    //               _showChartValueBackground = val;
+    //             });
+    //           },
+    //         ),
+    //         SwitchListTile(
+    //           value: _showChartValues,
+    //           title: Text("showChartValues"),
+    //           onChanged: (val) {
+    //             setState(() {
+    //               _showChartValues = val;
+    //             });
+    //           },
+    //         ),
+    //         SwitchListTile(
+    //           value: _showChartValuesInPercentage,
+    //           title: Text("showChartValuesInPercentage"),
+    //           onChanged: (val) {
+    //             setState(() {
+    //               _showChartValuesInPercentage = val;
+    //             });
+    //           },
+    //         ),
+    //         SwitchListTile(
+    //           value: _showChartValuesOutside,
+    //           title: Text("showChartValuesOutside"),
+    //           onChanged: (val) {
+    //             setState(() {
+    //               _showChartValuesOutside = val;
+    //             });
+    //           },
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
     return Scaffold(
-        body: ListView(children: [
-      MyHeaderPL(
-          image: "assets/sad-little.png",
-          texttop: "Grafik Kekerasan Perempuan dan Anak",
-          textbottom: ""),
-      AspectRatio(
-        aspectRatio: 1,
-        child: Card(
-          elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-          color: const Color(0xffffffff),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    makeTransactionsIcon(),
-                    const SizedBox(
-                      width: 38,
-                    ),
-                    const Text(
-                      'Tingkat Kekerasan',
-                      style: TextStyle(color: Colors.black, fontSize: 12),
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    const Text(
-                      'Perempuan dan Anak',
-                      style: TextStyle(color: Color(0xff77839a), fontSize: 12),
-                    ),
-                  ],
+      appBar: AppBar(
+        title: Text("Data Kasus Kekerasan"),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                key = key + 1;
+              });
+            },
+            child: Text("Reload".toUpperCase()),
+          ),
+        ],
+      ),
+      body: LayoutBuilder(
+        builder: (_, constraints) {
+          if (constraints.maxWidth >= 600) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  flex: 3,
+                  fit: FlexFit.tight,
+                  child: chart,
                 ),
-                const SizedBox(
-                  height: 38,
-                ),
-                Expanded(
-                  child: BarChart(
-                    BarChartData(
-                      maxY: 30,
-                      barTouchData: BarTouchData(
-                          touchTooltipData: BarTouchTooltipData(
-                            tooltipBgColor: Colors.black,
-                            getTooltipItem: (_a, _b, _c, _d) => null,
-                          ),
-                          touchCallback: (FlTouchEvent event, response) {
-                            if (response == null || response.spot == null) {
-                              setState(() {
-                                touchedGroupIndex = -1;
-                                showingBarGroups = List.of(rawBarGroups);
-                              });
-                              return;
-                            }
-
-                            touchedGroupIndex =
-                                response.spot!.touchedBarGroupIndex;
-
-                            setState(() {
-                              if (!event.isInterestedForInteractions) {
-                                touchedGroupIndex = -1;
-                                showingBarGroups = List.of(rawBarGroups);
-                                return;
-                              }
-                              showingBarGroups = List.of(rawBarGroups);
-                              if (touchedGroupIndex != -1) {
-                                var sum = 0.0;
-                                for (var rod
-                                    in showingBarGroups[touchedGroupIndex]
-                                        .barRods) {
-                                  sum += rod.toY;
-                                }
-                                final avg = sum /
-                                    showingBarGroups[touchedGroupIndex]
-                                        .barRods
-                                        .length;
-
-                                showingBarGroups[touchedGroupIndex] =
-                                    showingBarGroups[touchedGroupIndex]
-                                        .copyWith(
-                                  barRods: showingBarGroups[touchedGroupIndex]
-                                      .barRods
-                                      .map((rod) {
-                                    return rod.copyWith(toY: avg);
-                                  }).toList(),
-                                );
-                              }
-                            });
-                          }),
-                      titlesData: FlTitlesData(
-                        show: true,
-                        rightTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        topTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: bottomTitles,
-                            reservedSize: 42,
-                          ),
-                        ),
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 28,
-                            interval: 1,
-                            getTitlesWidget: leftTitles,
-                          ),
-                        ),
-                      ),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      barGroups: showingBarGroups,
-                      gridData: FlGridData(show: false),
+                // Flexible(
+                //   flex: 2,
+                //   fit: FlexFit.tight,
+                //   child: settings,
+                // )
+              ],
+            );
+          } else {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    child: chart,
+                    margin: EdgeInsets.symmetric(
+                      vertical: 32,
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-              ],
-            ),
-          ),
-        ),
-      )
-    ]));
-  }
-
-  Widget leftTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff7589a2),
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
-    String text;
-    if (value == 0) {
-      text = '3';
-    } else if (value == 3) {
-      text = '5';
-    } else if (value == 6) {
-      text = '10';
-    } else if (value == 9) {
-      text = '15';
-    } else if (value == 12) {
-      text = '20';
-    } else if (value == 15) {
-      text = '25';
-    } else if (value == 18) {
-      text = '30';
-    } else if (value == 21) {
-      text = '35';
-    } else {
-      return Container();
-    }
-    return Text(text, style: style);
-  }
-
-  Widget bottomTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff7589a2),
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
-    Widget text;
-    switch (value.toInt()) {
-      case 0:
-        text = const Text(
-          'Mn',
-          style: style,
-        );
-        break;
-      case 1:
-        text = const Text(
-          'Te',
-          style: style,
-        );
-        break;
-      case 2:
-        text = const Text(
-          'Wd',
-          style: style,
-        );
-        break;
-      case 3:
-        text = const Text(
-          'Tu',
-          style: style,
-        );
-        break;
-      case 4:
-        text = const Text(
-          'Fr',
-          style: style,
-        );
-        break;
-      case 5:
-        text = const Text(
-          'St',
-          style: style,
-        );
-        break;
-      case 6:
-        text = const Text(
-          'Sn',
-          style: style,
-        );
-        break;
-      case 7:
-        text = const Text(
-          'Sy',
-          style: style,
-        );
-        break;
-      default:
-        text = const Text(
-          '',
-          style: style,
-        );
-        break;
-    }
-    return Padding(padding: const EdgeInsets.only(top: 20), child: text);
-  }
-
-  BarChartGroupData makeGroupData(int x, double y1, double y2) {
-    return BarChartGroupData(barsSpace: 4, x: x, barRods: [
-      BarChartRodData(
-        toY: y1,
-        color: leftBarColor,
-        width: width,
+                  // settings,
+                ],
+              ),
+            );
+          }
+        },
       ),
-      BarChartRodData(
-        toY: y2,
-        color: rightBarColor,
-        width: width,
-      ),
-    ]);
-  }
-
-  Widget makeTransactionsIcon() {
-    const width = 4.5;
-    const space = 3.5;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: width,
-          height: 10,
-          color: Colors.black.withOpacity(0.4),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 28,
-          color: Colors.black.withOpacity(0.8),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 42,
-          color: Colors.black.withOpacity(1),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 28,
-          color: Colors.black.withOpacity(0.8),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 10,
-          color: Colors.black.withOpacity(0.4),
-        ),
-      ],
     );
   }
 }
+
+
+// class HomePage2 extends StatelessWidget {
+//   HomePage2({Key? key}) : super(key: key);
+
+//   final dataMap = <String, double>{
+//     "Flutter": 5,
+//   };
+
+//   final colorList = <Color>[
+//     Colors.greenAccent,
+//   ];
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text("Pie Chart 1"),
+//       ),
+//       body: Container(
+//         padding: EdgeInsets.symmetric(horizontal: 16),
+//         child: PieChart(
+//           dataMap: dataMap,
+//           chartType: ChartType.ring,
+//           baseChartColor: Colors.grey[50]!.withOpacity(0.15),
+//           colorList: colorList,
+//           chartValuesOptions: ChartValuesOptions(
+//             showChartValuesInPercentage: true,
+//           ),
+//           totalValue: 20,
+//         ),
+//       ),
+//     );
+//   }
+// }

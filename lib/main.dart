@@ -5,7 +5,9 @@ import 'package:sipudak/pages/info_screen.dart';
 import 'package:sipudak/pages/login.dart';
 import 'package:sipudak/pages/register.dart';
 import 'package:sipudak/pages/splash_screen.dart';
+import 'package:sipudak/pages/tingkat_kekerasan.dart';
 import 'package:sipudak/theme.dart';
+import "package:dcdg/dcdg.dart";
 
 void main() => runApp(MyApp());
 

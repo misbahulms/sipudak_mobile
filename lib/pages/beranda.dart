@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sipudak/pages/info_screen.dart';
+import 'package:sipudak/pages/tingkat_kekerasan.dart';
 import 'package:sipudak/theme.dart';
 import 'package:sipudak/widget/kasus.dart';
 import 'package:sipudak/widget/my_header.dart';
@@ -18095,10 +18096,17 @@ class _BerandaState extends State<Beranda> {
                             "Sebaran kasus",
                             style: kTitleTextstyle1,
                           ),
-                          Text(
-                            "Selengkapnya",
-                            style: TextStyle(
-                                color: blueColor, fontWeight: FontWeight.w600),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              textStyle: const TextStyle(fontSize: 20),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => KekerasanChart()));
+                            },
+                            child: const Text('Selengkapnya'),
                           ),
                         ],
                       ),
