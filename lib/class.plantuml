@@ -1,0 +1,475 @@
+@startuml
+set namespaceSeparator ::
+
+class "sipudak::home.dart::HomePage" {
+  +_HomePageState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "sipudak::home.dart::HomePage"
+
+class "sipudak::home.dart::_HomePageState" {
+  -int _selectIndex
+  -bool _isLoading
+  -int _jumlahKasus
+  -List<StatefulWidget> _pageList
+  +dynamic onTappedItem()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "sipudak::home.dart::_HomePageState"
+
+class "sipudak::main.dart::MyApp" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::main.dart::MyApp"
+
+class "sipudak::network::api::url_api.dart::BASEURL" {
+  {static} +String ipAddress
+  {static} +String login
+  {static} +String register
+  {static} +String korban
+  {static} +String pelaporan
+  {static} +String profil
+}
+
+class "sipudak::pages::beranda.dart::Beranda" {
+  +_BerandaState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "sipudak::pages::beranda.dart::Beranda"
+
+class "sipudak::pages::beranda.dart::_BerandaState" {
+  -bool _isLoading
+  -List<dynamic> _jumlahKasus
+  +Future<dynamic> getLaporanKasus()
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "sipudak::pages::beranda.dart::_BerandaState"
+
+class "sipudak::pages::detail_laporan_list.dart::DetailLaporanList" {
+  +Map<dynamic, dynamic> data
+  +_DetailLaporanListState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "sipudak::pages::detail_laporan_list.dart::DetailLaporanList"
+
+class "sipudak::pages::detail_laporan_list.dart::_DetailLaporanListState" {
+  -bool _isLoading
+  +File? image
+  -TextEditingController _korbanKekerasan
+  -TextEditingController _tempatKejadian
+  -TextEditingController _alamatKejadian
+  -TextEditingController _hubunganDgnKorban
+  -TextEditingController _tanggalDetailLaporanList
+  -TextEditingController _alamatPelapor
+  -TextEditingController _nomorHp
+  -TextEditingController _desaKejadian
+  -TextEditingController _kronologisKejadian
+  -bool _secureText
+  +void initState()
+  +dynamic showHide()
+  -Future<dynamic> _validateAndSubmit()
+  +Future<dynamic> submitLaporan()
+  +Widget build()
+  +Widget imageKorban()
+}
+
+"sipudak::pages::detail_laporan_list.dart::_DetailLaporanListState" o-- "dart::io::File"
+"sipudak::pages::detail_laporan_list.dart::_DetailLaporanListState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "sipudak::pages::detail_laporan_list.dart::_DetailLaporanListState"
+
+class "sipudak::pages::info_screen.dart::InfoScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::pages::info_screen.dart::InfoScreen"
+
+class "sipudak::pages::info_screen.dart::News" {
+  +String image
+  +String judul
+  +String title
+  +dynamic onTap
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::pages::info_screen.dart::News"
+
+class "sipudak::pages::info_screen.dart::InfoCard" {
+  +dynamic image
+  +dynamic title
+  +dynamic onTap
+  +bool isActive
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::pages::info_screen.dart::InfoCard"
+
+class "sipudak::pages::kekerasan_anak.dart::Anak" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::pages::kekerasan_anak.dart::Anak"
+
+class "sipudak::pages::kekerasan_perempuan.dart::Perempuan" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::pages::kekerasan_perempuan.dart::Perempuan"
+
+class "sipudak::pages::laporan_list_page.dart::LaporanListPage" {
+  +State<LaporanListPage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "sipudak::pages::laporan_list_page.dart::LaporanListPage"
+
+class "sipudak::pages::laporan_list_page.dart::_LaporanListPageState" {
+  -bool _isLoading
+  -List<dynamic> _jumlahKasus
+  +Future<dynamic> getHistoryLaporan()
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "sipudak::pages::laporan_list_page.dart::_LaporanListPageState"
+
+class "sipudak::pages::laporan_list_page.dart::News" {
+  +String image
+  +String judul
+  +String title
+  +dynamic onTap
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::pages::laporan_list_page.dart::News"
+
+class "sipudak::pages::laporan_list_page.dart::InfoCard" {
+  +dynamic image
+  +dynamic title
+  +dynamic onTap
+  +bool isActive
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::pages::laporan_list_page.dart::InfoCard"
+
+class "sipudak::pages::login.dart::Login" {
+  +_LoginState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "sipudak::pages::login.dart::Login"
+
+class "sipudak::pages::login.dart::_LoginState" {
+  +TextEditingController nomorHpController
+  +TextEditingController passwordController
+  +dynamic whiteColor
+  -bool _secureText
+  -bool _isLoading
+  +dynamic showHide()
+  +void initState()
+  +Future<dynamic> checkLogin()
+  +Future<dynamic> signIn()
+  +Widget build()
+}
+
+"sipudak::pages::login.dart::_LoginState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "sipudak::pages::login.dart::_LoginState"
+
+class "sipudak::pages::panduan_pelaporan.dart::Panduan" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::pages::panduan_pelaporan.dart::Panduan"
+
+class "sipudak::pages::pelaporan.dart::Pelaporan" {
+  +_PelaporanState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "sipudak::pages::pelaporan.dart::Pelaporan"
+
+class "sipudak::pages::pelaporan.dart::_PelaporanState" {
+  -bool _secureText
+  -bool _isLoading
+  +File? image
+  -TextEditingController _korbanKekerasan
+  -TextEditingController _tempatKejadian
+  -TextEditingController _alamatKejadian
+  -TextEditingController _hubunganDgnKorban
+  -TextEditingController _tanggalPelaporan
+  -TextEditingController _alamatPelapor
+  -TextEditingController _nomorHp
+  -TextEditingController _desaKejadian
+  -TextEditingController _kronologisKejadian
+  +dynamic showHide()
+  -Future<dynamic> _validateAndSubmit()
+  +Future<dynamic> submitLaporan()
+  +Widget build()
+  +Widget imageKorban()
+}
+
+"sipudak::pages::pelaporan.dart::_PelaporanState" o-- "dart::io::File"
+"sipudak::pages::pelaporan.dart::_PelaporanState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "sipudak::pages::pelaporan.dart::_PelaporanState"
+
+class "sipudak::pages::peraturan_hukum.dart::Peraturan" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::pages::peraturan_hukum.dart::Peraturan"
+
+class "sipudak::pages::profil.dart::Profil" {
+  +State<Profil> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "sipudak::pages::profil.dart::Profil"
+
+class "sipudak::pages::profil.dart::_ProfilState" {
+  -bool _isLoading
+  -dynamic _data
+  +void initState()
+  +Future<dynamic> getProfil()
+  +Widget build()
+  +Future<dynamic> removePrefs()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "sipudak::pages::profil.dart::_ProfilState"
+
+class "sipudak::pages::profil.dart::MyClipper" {
+  +Path getClip()
+  +bool shouldReclip()
+}
+
+"flutter::src::rendering::proxy_box.dart::CustomClipper" <|-- "sipudak::pages::profil.dart::MyClipper"
+
+class "sipudak::pages::register.dart::Register" {
+  +_RegisterState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "sipudak::pages::register.dart::Register"
+
+class "sipudak::pages::register.dart::_RegisterState" {
+  +TextEditingController namaController
+  +TextEditingController emailController
+  +TextEditingController nomorHpController
+  +TextEditingController alamatController
+  +TextEditingController passwordController
+  -GlobalKey<FormState> _formKey
+  -bool _secureText
+  -bool _isLoading
+  +dynamic showHide()
+  +Future<dynamic> registerSubmit()
+  +Widget build()
+}
+
+"sipudak::pages::register.dart::_RegisterState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"sipudak::pages::register.dart::_RegisterState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"flutter::src::widgets::framework.dart::State" <|-- "sipudak::pages::register.dart::_RegisterState"
+
+class "sipudak::pages::splash_screen.dart::SplashScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::pages::splash_screen.dart::SplashScreen"
+
+class "sipudak::pages::tingkat_kekerasan.dart::KekerasanChart" {
+  +_KekerasanChartState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "sipudak::pages::tingkat_kekerasan.dart::KekerasanChart"
+
+class "sipudak::pages::tingkat_kekerasan.dart::_KekerasanChartState" {
+  +Map<String, double> dataMap
+  +Map<String, String> legendLabels
+  +List<Color> colorList
+  +List<List<Color>> gradientList
+  -ChartType? _chartType
+  -bool _showCenterText
+  -double? _ringStrokeWidth
+  -double? _chartLegendSpacing
+  -bool _showLegendsInRow
+  -bool _showLegends
+  -bool _showLegendLabel
+  -bool _showChartValueBackground
+  -bool _showChartValues
+  -bool _showChartValuesInPercentage
+  -bool _showChartValuesOutside
+  -bool _showGradientColors
+  -LegendShape? _legendShape
+  -LegendPosition? _legendPosition
+  +int key
+  +Widget build()
+}
+
+"sipudak::pages::tingkat_kekerasan.dart::_KekerasanChartState" o-- "pie_chart::src::pie_chart.dart::ChartType"
+"sipudak::pages::tingkat_kekerasan.dart::_KekerasanChartState" o-- "sipudak::pages::tingkat_kekerasan.dart::LegendShape"
+"sipudak::pages::tingkat_kekerasan.dart::_KekerasanChartState" o-- "pie_chart::src::pie_chart.dart::LegendPosition"
+"flutter::src::widgets::framework.dart::State" <|-- "sipudak::pages::tingkat_kekerasan.dart::_KekerasanChartState"
+
+class "sipudak::pages::tingkat_kekerasan.dart::LegendShape" {
+  +int index
+  {static} +List<LegendShape> values
+  {static} +LegendShape Circle
+  {static} +LegendShape Rectangle
+}
+
+"sipudak::pages::tingkat_kekerasan.dart::LegendShape" o-- "sipudak::pages::tingkat_kekerasan.dart::LegendShape"
+"dart::core::Enum" <|-- "sipudak::pages::tingkat_kekerasan.dart::LegendShape"
+
+class "sipudak::services::image_services.dart::ImageServices" {
+  {static} +Future<dynamic> selectImage()
+}
+
+class "sipudak::widget::button_primary.dart::ButtonPrimary" {
+  +String text
+  +dynamic onTap
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::widget::button_primary.dart::ButtonPrimary"
+
+class "sipudak::widget::kasus.dart::Kasus" {
+  +int jumlah
+  +Color color
+  +String title
+  +Widget build()
+}
+
+"sipudak::widget::kasus.dart::Kasus" o-- "dart::ui::Color"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::widget::kasus.dart::Kasus"
+
+class "sipudak::widget::logo.dart::LogoSpace" {
+  +Widget child
+  +Widget build()
+}
+
+"sipudak::widget::logo.dart::LogoSpace" o-- "flutter::src::widgets::framework.dart::Widget"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::widget::logo.dart::LogoSpace"
+
+class "sipudak::widget::my_header.dart::MyHeader" {
+  +String image
+  +String texttop
+  +String textbottom
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::widget::my_header.dart::MyHeader"
+
+class "sipudak::widget::my_header.dart::MyClipper" {
+  +Path getClip()
+  +bool shouldReclip()
+}
+
+"flutter::src::rendering::proxy_box.dart::CustomClipper" <|-- "sipudak::widget::my_header.dart::MyClipper"
+
+class "sipudak::widget::my_headerAn.dart::MyHeaderAn" {
+  +String image
+  +String texttop
+  +String textbottom
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::widget::my_headerAn.dart::MyHeaderAn"
+
+class "sipudak::widget::my_headerAn.dart::MyClipper" {
+  +Path getClip()
+  +bool shouldReclip()
+}
+
+"flutter::src::rendering::proxy_box.dart::CustomClipper" <|-- "sipudak::widget::my_headerAn.dart::MyClipper"
+
+class "sipudak::widget::my_headerHk.dart::MyHeaderHk" {
+  +String image
+  +String texttop
+  +String textbottom
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::widget::my_headerHk.dart::MyHeaderHk"
+
+class "sipudak::widget::my_headerHk.dart::MyClipper" {
+  +Path getClip()
+  +bool shouldReclip()
+}
+
+"flutter::src::rendering::proxy_box.dart::CustomClipper" <|-- "sipudak::widget::my_headerHk.dart::MyClipper"
+
+class "sipudak::widget::my_headerInfo.dart::MyHeaderInfo" {
+  +String image
+  +String texttop
+  +String textbottom
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::widget::my_headerInfo.dart::MyHeaderInfo"
+
+class "sipudak::widget::my_headerInfo.dart::MyClipper" {
+  +Path getClip()
+  +bool shouldReclip()
+}
+
+"flutter::src::rendering::proxy_box.dart::CustomClipper" <|-- "sipudak::widget::my_headerInfo.dart::MyClipper"
+
+class "sipudak::widget::my_headerPL.dart::MyHeaderPL" {
+  +String image
+  +String texttop
+  +String textbottom
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::widget::my_headerPL.dart::MyHeaderPL"
+
+class "sipudak::widget::my_headerPL.dart::MyClipper" {
+  +Path getClip()
+  +bool shouldReclip()
+}
+
+"flutter::src::rendering::proxy_box.dart::CustomClipper" <|-- "sipudak::widget::my_headerPL.dart::MyClipper"
+
+class "sipudak::widget::my_headerPp.dart::MyHeaderPp" {
+  +String image
+  +String texttop
+  +String textbottom
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::widget::my_headerPp.dart::MyHeaderPp"
+
+class "sipudak::widget::my_headerPp.dart::MyClipper" {
+  +Path getClip()
+  +bool shouldReclip()
+}
+
+"flutter::src::rendering::proxy_box.dart::CustomClipper" <|-- "sipudak::widget::my_headerPp.dart::MyClipper"
+
+class "sipudak::widget::my_headerPr.dart::MyHeaderPr" {
+  +String image
+  +String texttop
+  +String textbottom
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::widget::my_headerPr.dart::MyHeaderPr"
+
+class "sipudak::widget::my_headerPr.dart::MyClipper" {
+  +Path getClip()
+  +bool shouldReclip()
+}
+
+"flutter::src::rendering::proxy_box.dart::CustomClipper" <|-- "sipudak::widget::my_headerPr.dart::MyClipper"
+
+class "sipudak::widget::widget_logo.dart::WidgetLogo" {
+  +Widget child
+  +String image
+  +String title
+  +String subtitle1
+  +String subtitle2
+  +Widget build()
+}
+
+"sipudak::widget::widget_logo.dart::WidgetLogo" o-- "flutter::src::widgets::framework.dart::Widget"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "sipudak::widget::widget_logo.dart::WidgetLogo"
+
+
+@enduml

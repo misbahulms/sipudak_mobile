@@ -109,8 +109,8 @@ class _RegisterState extends State<Register> {
     var dio = Dio();
     dio.options
       ..baseUrl = BASEURL.ipAddress
-      ..connectTimeout = 10000
-      ..receiveTimeout = 10000
+      ..connectTimeout = 100000
+      ..receiveTimeout = 100000
       // ..validateStatus = (status) {
       //   return status! > 0;
       // }

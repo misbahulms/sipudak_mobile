@@ -30,13 +30,53 @@ class Panduan extends StatelessWidget {
                 ),
                 ListTile(
                   title: Text(
-                    "1. Peraturan Presiden Nomor 65 Tahun 2020 Tentang Kementrian Pemberdayaan Perempuan dan Perlindungan Anak ",
+                    "1. Pahami dulu bentuk kekerasan perempuan atau anak",
                     style: boldTextStyle,
                   ),
                   subtitle: Text(""),
                 ),
                 SizedBox(
                   height: 10,
+                ),
+                ListTile(
+                  title: Text(
+                    "2. Silahkan buka halaman Perempuan untuk melihat bentuk kekerasan terhadap perempuan",
+                    style: boldTextStyle,
+                  ),
+                  subtitle: Text(""),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                ListTile(
+                  title: Text(
+                    "3. Silahkan buka halaman Anak untuk melihat bentuk kekerasan terhadap anak",
+                    style: boldTextStyle,
+                  ),
+                  subtitle: Text(""),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                ListTile(
+                  title: Text(
+                    "4. Kemudian buka halaman peraturan untuk mengetahui hukum apa saja yang terkait kekerasan terhadap perempuan dan anak",
+                    style: boldTextStyle,
+                  ),
+                  subtitle: Text(""),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                ListTile(
+                  title: Text(
+                    "5. Silahkan lakukan pelaporan pada halaman Laporkan untuk melakukan pelaporan tindak kekerasan yang di alami atau yang terlihat",
+                    style: boldTextStyle,
+                  ),
+                  subtitle: Text(""),
+                ),
+                SizedBox(
+                  height: 5,
                 ),
               ],
             )),

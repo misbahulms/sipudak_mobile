@@ -67,7 +67,8 @@ import './login.dart';
 // }
 
 class Profil extends StatefulWidget {
-  const Profil({Key? key}) : super(key: key);
+  final idUser;
+  Profil({Key? key, this.idUser}) : super(key: key);
 
   @override
   State<Profil> createState() => _ProfilState();
@@ -104,7 +105,7 @@ class _ProfilState extends State<Profil> {
       };
     try {
       var response = await dio.get(
-        "${BASEURL.profil}",
+        "${BASEURL.profil}/${widget.idUser}",
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );
 
@@ -203,10 +204,7 @@ class _ProfilState extends State<Profil> {
                     "Email",
                     style: boldTextStyle,
                   ),
-                  subtitle: Text(
-                      _data == null 
-                          ? ""
-                          : _data['email']),
+                  subtitle: Text(_data == null ? "" : _data['email']),
                   leading: Icon(Icons.email),
                 ),
                 ListTile(
@@ -214,10 +212,7 @@ class _ProfilState extends State<Profil> {
                     "Nomor Hp",
                     style: boldTextStyle,
                   ),
-                  subtitle: Text(
-                      _data == null 
-                          ? ""
-                          : _data['no_hp']),
+                  subtitle: Text(_data == null ? "" : _data['no_hp']),
                   leading: Icon(Icons.phone),
                 ),
                 ListTile(
@@ -225,10 +220,7 @@ class _ProfilState extends State<Profil> {
                     "Alamat",
                     style: boldTextStyle,
                   ),
-                  subtitle: Text(
-                      _data== null 
-                          ? ""
-                          : _data['alamat']),
+                  subtitle: Text(_data == null ? "" : _data['alamat']),
                   leading: Icon(Icons.location_on),
                 ),
               ],

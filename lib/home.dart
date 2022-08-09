@@ -8,7 +8,9 @@ import 'package:dio/dio.dart';
 import './network/api/url_api.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  int? idUser;
+
+  HomePage({Key? key, this.idUser}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -19,17 +21,18 @@ class _HomePageState extends State<HomePage> {
   bool _isLoading = false;
   var _jumlahKasus = 0;
 
-  final _pageList = [
-    Beranda(),
-    Profil(),
-  ];
+  var _pageList = [];
+  @override
+  void initState() {
+    super.initState();
+    _pageList = [Beranda(), Profil(idUser: widget.idUser)];
+  }
 
   onTappedItem(int index) {
     setState(() {
       _selectIndex = index;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {

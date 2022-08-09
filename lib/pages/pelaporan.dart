@@ -12,6 +12,7 @@ import 'package:dio/dio.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 // import 'package:sipudak/widget/my_headerAn.dart';
 import 'package:sipudak/widget/my_headerPL.dart';
 import 'package:sipudak/network/api/url_api.dart';
@@ -35,6 +36,16 @@ class _PelaporanState extends State<Pelaporan> {
   }
 
   bool _isLoading = false;
+
+  DateTime pickedDate = DateTime.now();
+
+  List korban = [
+    {'no': 1, 'value': 'Perempuan'},
+    {'no': 2, 'value': 'Anak'},
+  ];
+
+  List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
+  var selectedkorban;
 
   File? image;
   var _korbanKekerasan = TextEditingController();
@@ -90,9 +101,9 @@ class _PelaporanState extends State<Pelaporan> {
       // 'id_pelapor': "1",
       'id_user': "1",
       'alamat_pelapor': _alamatPelapor.text,
-      'no_hp': _nomorHp.text, 
-      'korban_kekerasan': _korbanKekerasan.text,
-      'tanggal_pelaporan': "2021-07-15 00:00:00",
+      'no_hp': _nomorHp.text,
+      'korban_kekerasan': selectedkorban,
+      'tanggal_pelaporan': pickedDate.toString(),
       'tempat_kejadian': _tempatKejadian.text,
       'alamat_kejadian': _alamatKejadian.text,
       'kronologis_kejadian': _kronologisKejadian.text,
@@ -187,6 +198,12 @@ class _PelaporanState extends State<Pelaporan> {
   }
 
   @override
+  void initState() {
+    _dropdownTestItems = buildDropdownTestItems(korban);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var whiteColor;
     return Scaffold(
@@ -226,29 +243,54 @@ class _PelaporanState extends State<Pelaporan> {
                       height: 24,
                     ),
                     // TextField
+                    // Container(
+                    //   padding: EdgeInsets.only(left: 16),
+                    //   height: 50,
+                    //   decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(20),
+                    //       boxShadow: [
+                    //         BoxShadow(
+                    //             color: kShadowColor,
+                    //             offset: Offset(0, 1),
+                    //             blurRadius: 1,
+                    //             spreadRadius: 0)
+                    //       ],
+                    //       color: whiteColor),
+                    //   width: MediaQuery.of(context).size.width,
+                    //   child: TextField(
+                    //     controller: _korbanKekerasan,
+                    //     decoration: InputDecoration(
+                    //         border: InputBorder.none,
+                    //         hintText: 'Korban Kekerasan',
+                    //         hintStyle: lightTextStyle.copyWith(
+                    //             fontSize: 15, color: greyLightColor)),
+                    //   ),
+                    // ),
                     Container(
-                      padding: EdgeInsets.only(left: 16),
-                      height: 50,
+                      padding: EdgeInsets.only(left: 10, right: 10),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                                color: kShadowColor,
-                                offset: Offset(0, 1),
-                                blurRadius: 1,
-                                spreadRadius: 0)
-                          ],
-                          color: whiteColor),
-                      width: MediaQuery.of(context).size.width,
-                      child: TextField(
-                        controller: _korbanKekerasan,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Korban Kekerasan',
-                            hintStyle: lightTextStyle.copyWith(
-                                fontSize: 15, color: greyLightColor)),
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(30)),
+                      child: DropdownButton<String>(
+                        items:
+                            <String>['Perempuan', 'Anak'].map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        value: selectedkorban,
+                        isExpanded: true,
+                        underline: Container(),
+                        hint: Text("Korban Kekerasan"),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedkorban = value;
+                          });
+                        },
                       ),
                     ),
+
                     SizedBox(
                       height: 24,
                     ),
@@ -330,29 +372,34 @@ class _PelaporanState extends State<Pelaporan> {
                     SizedBox(
                       height: 24,
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 16),
-                      height: 50,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                                color: kShadowColor,
-                                offset: Offset(0, 1),
-                                blurRadius: 4,
-                                spreadRadius: 0)
-                          ],
-                          color: whiteColor),
-                      width: MediaQuery.of(context).size.width,
-                      child: TextField(
-                        controller: _tanggalPelaporan,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Tanggal Pelaporan',
-                            hintStyle: lightTextStyle.copyWith(
-                                fontSize: 15, color: greyLightColor)),
-                      ),
-                    ),
+                    GestureDetector(
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 16),
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: kShadowColor,
+                                    offset: Offset(0, 1),
+                                    blurRadius: 4,
+                                    spreadRadius: 0)
+                              ],
+                              color: whiteColor),
+                          width: MediaQuery.of(context).size.width,
+                          child: TextField(
+                            enabled: false,
+                            controller: _tanggalPelaporan,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Tanggal Pelaporan',
+                                hintStyle: lightTextStyle.copyWith(
+                                    fontSize: 15, color: greyLightColor)),
+                          ),
+                        )),
                     SizedBox(
                       height: 30,
                     ),
@@ -461,7 +508,17 @@ class _PelaporanState extends State<Pelaporan> {
                     SizedBox(
                       height: 30,
                     ),
-
+                    Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Tambahkan Foto Korban",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
                     // imageKorban(),
                     Center(
                       child: Stack(
@@ -572,7 +629,10 @@ class _PelaporanState extends State<Pelaporan> {
                             await _validateAndSubmit(context);
                           },
                           child: _isLoading
-                              ? Center(child: CircularProgressIndicator(color: Colors.black,))
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                  color: Colors.black,
+                                ))
                               : Text('Laporkan !',
                                   style: TextStyle(
                                       color: Colors.black,
@@ -597,6 +657,52 @@ class _PelaporanState extends State<Pelaporan> {
 // Future<File> getImage() async {
 //   return await ImagePicker.pickImage(source: ImageSource.gallery);
 // }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        // locale: Locale('id', 'ID'),
+        builder: (context, child) {
+          return Theme(
+            data: ThemeData.dark().copyWith(
+                colorScheme: ColorScheme.light(
+                  primary: Colors.blue,
+                  onPrimary: Colors.white,
+                  surface: Colors.blue,
+                  onSurface: Colors.blue,
+                  background: Colors.blue,
+                ),
+                dialogBackgroundColor: Colors.white),
+            child: child!,
+          );
+        },
+        initialDate: pickedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != pickedDate)
+      setState(() {
+        pickedDate = picked;
+        _tanggalPelaporan.text =
+            "${DateFormat("EEEE, d MMMM yyyy").format(pickedDate)}";
+      });
+  }
+
+  List<DropdownMenuItem<Object?>> buildDropdownTestItems(List korban) {
+    List<DropdownMenuItem<Object?>> items = [];
+    for (var i in korban) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i['value'],
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
+
   Widget imageKorban() {
     return Center(
       child: Stack(

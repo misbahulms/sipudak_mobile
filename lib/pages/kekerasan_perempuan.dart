@@ -22,6 +22,15 @@ class Perempuan extends StatelessWidget {
               children: <Widget>[
                 ListTile(
                   title: Text(
+                    "Perlindungan Perempuan adalah segala upaya yang ditujukan untuk melindungi dan memberikan rasa aman kepada perempuan serta pemenuhan haknya melalui perhatian yang konsisten, terstruktur dan sistematis yang ditujukan untuk mencapai kesetaraan gender.",
+                    style: boldTextStyle,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ListTile(
+                  title: Text(
                     "1. Fisik",
                     style: boldTextStyle,
                   ),

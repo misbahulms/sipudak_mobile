@@ -22,6 +22,15 @@ class Anak extends StatelessWidget {
               children: <Widget>[
                 ListTile(
                   title: Text(
+                    "Perlindungan Anak adalah segala kegiatan untuk menjamin dan melindungi anak dan haknya agar dapat hidup, tumbuh, berkembang dan berpartisipasi secara optimal sesuai dengan harkat dan martabat kemanusiaan, serta mendapat perlindungan dari kekerasan dan diskriminasi.",
+                    style: boldTextStyle,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ListTile(
+                  title: Text(
                     "1. Fisik",
                     style: boldTextStyle,
                   ),

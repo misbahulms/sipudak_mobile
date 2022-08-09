@@ -21,6 +21,56 @@ class Beranda extends StatefulWidget {
 class _BerandaState extends State<Beranda> {
   bool _isLoading = false;
   var _jumlahKasus = [];
+  final dataMap = <String, double>{
+    "Galing": 0,
+    "Jawai": 3,
+    "Jawai Selatan": 2,
+    "Paloh": 3,
+    "Pemangkat": 2,
+    "Sajad": 2,
+    "Sajingan Besar": 0,
+    "Salatiga": 3,
+    "Sambas": 4,
+    "Sebawi": 0,
+    "Sejangkung": 4,
+    "Selakau": 5,
+    "Selakau TImur": 2,
+    "Semparuk": 1,
+    "Subah": 3,
+    "Tangaran": 1,
+    "Tebas": 8,
+    "Tekarang": 2,
+    "Teluk Keramat": 4,
+  };
+
+  final legendLabels = <String, String>{
+    "Galing": "Flutter legend",
+    "React": "React legend",
+    "Xamarin": "Xamarin legend",
+    "Ionic": "Ionic legend",
+  };
+
+  final colorList = <Color>[
+    Color(0xfffdcb6e),
+    Color(0xff0984e3),
+    Color(0xfffd79a8),
+    Color(0xffe17055),
+    Color(0xff6c5ce7),
+    Color.fromRGBO(429, 182, 205, 1),
+    Color.fromRGBO(329, 182, 205, 1),
+    Color.fromRGBO(229, 182, 205, 1),
+    Color.fromRGBO(254, 154, 92, 1),
+    Color.fromRGBO(223, 250, 92, 1),
+    Color.fromRGBO(191, 353, 199, 1),
+    Color.fromRGBO(125, 63, 62, 1.0),
+    Color.fromRGBO(213, 140, 93, 1),
+    Color.fromRGBO(254, 154, 92, 1),
+    Color.fromRGBO(175, 63, 62, 1.0),
+    Color.fromRGBO(91, 253, 199, 1),
+    Color.fromRGBO(129, 182, 205, 1),
+    Color.fromRGBO(223, 250, 92, 1),
+    Color.fromRGBO(129, 250, 112, 1),
+  ];
 
   Future getLaporanKasus() async {
     setState(() {
