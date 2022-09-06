@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _pageList = [Beranda(), Profil(idUser: widget.idUser)];
+    _pageList = [Beranda(idUser: widget.idUser), Profil(idUser: widget.idUser)];
   }
 
   onTappedItem(int index) {

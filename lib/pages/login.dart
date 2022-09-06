@@ -18,7 +18,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController nomorHpController = TextEditingController();
+  TextEditingController no_HpController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   var whiteColor;
@@ -34,23 +34,25 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
 
-    checkLogin();
+    // checkLogin();
   }
 
   Future checkLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String? nomorHp = prefs.getString('idUser');
-    int? idUser = prefs.getInt('nomorHp');
+    String? id_user = prefs.getString('id_user') ?? "0";
+    String? no_Hp = prefs.getString('no_Hp');
     String? password = prefs.getString('password');
 
-    print("check idUser: $idUser");
-    print("check noHp: $nomorHp");
+    print("check id_user: $id_user");
+    print("check no_Hp: $no_Hp");
     print("check password: $password");
 
-    if (nomorHp != null && password != null) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => HomePage(idUser: idUser)));
+    if (no_Hp != null && password != null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomePage(idUser: int.parse(id_user))));
     }
   }
 
@@ -95,14 +97,14 @@ class _LoginState extends State<Login> {
     // _isLoadingUser = true;
     // notifyListeners();
 
-    print(nomorHpController.text);
+    print(no_HpController.text);
     print(passwordController.text);
 
     try {
       var responseData = await dio.post(
         BASEURL.login,
         data: {
-          'no_hp': nomorHpController.text,
+          'no_hp': no_HpController.text,
           'password': passwordController.text
         },
         options: Options(
@@ -116,22 +118,25 @@ class _LoginState extends State<Login> {
 
       if (responseData.data['status']) {
         await Future.wait([
-          prefs.setInt('idUser', responseData.data['id']),
-          prefs.setString('nomorHp', nomorHpController.text),
+          prefs.setString('id_user', responseData.data["data"]["id_user"]),
+          prefs.setString('no_Hp', no_HpController.text),
           prefs.setString('password', passwordController.text),
         ]);
 
         setState(() {
           _isLoading = false;
           //if there is no error, get the user's accesstoken and pass it to HomeScreen
-          String accessToken = responseData.data['data'];
+          // String accessToken = responseData.data['data'];
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('${responseData.data['data']}'),
+          content: Text('${responseData.data['message']}'),
           backgroundColor: Colors.blue.shade300,
         ));
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomePage(
+                    idUser: int.parse(responseData.data["data"]['id_user']))));
         // notifyListeners();
 
         print(responseData.data['message']);
@@ -241,7 +246,7 @@ class _LoginState extends State<Login> {
                           color: whiteColor),
                       width: MediaQuery.of(context).size.width,
                       child: TextFormField(
-                        controller: nomorHpController,
+                        controller: no_HpController,
                         validator: (value) {
                           if (value!.length < 9)
                             return "Nomor Hp Anda Minimal 9 Karakter";
@@ -275,7 +280,7 @@ class _LoginState extends State<Login> {
                         obscureText: _secureText,
                         validator: (value) {
                           if (value!.length < 2)
-                            return "Password Anda Kurang dari 6 Karakter";
+                            return "Password Anda Kurang dari 3 Karakter";
                         },
                         decoration: InputDecoration(
                             suffixIcon: IconButton(

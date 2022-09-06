@@ -18,7 +18,10 @@ class WidgetLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Center(
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
           image,
@@ -36,6 +39,7 @@ class WidgetLogo extends StatelessWidget {
           height: 5,
         ),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               subtitle1,
@@ -59,6 +63,6 @@ class WidgetLogo extends StatelessWidget {
           ],
         )
       ],
-    );
+    ));
   }
 }

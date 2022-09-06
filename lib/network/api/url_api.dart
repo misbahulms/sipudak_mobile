@@ -4,6 +4,7 @@ class BASEURL {
   // static String apiRegister = "http://$ipAddress";
   static String register = "/api/user";
   static String korban = "/api/korban";
-  static String pelaporan = "/api/pelaporan";
-  static String profil = "/api/user/profil";
+  static String desa = "/api/Desa";
+  static String pelaporan = "/api/Pelaporan";
+  static String profil = "/api/user/profil/";
 }

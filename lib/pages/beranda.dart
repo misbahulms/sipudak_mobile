@@ -12,7 +12,8 @@ import 'package:dio/dio.dart';
 import '../network/api/url_api.dart';
 
 class Beranda extends StatefulWidget {
-  const Beranda({Key? key}) : super(key: key);
+  final idUser;
+  Beranda({Key? key, this.idUser}) : super(key: key);
 
   @override
   _BerandaState createState() => _BerandaState();
@@ -18361,7 +18362,7 @@ class _BerandaState extends State<Beranda> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => InfoScreen(),
+                      builder: (context) => InfoScreen(idUser: widget.idUser),
                     ));
               },
               label: const Text('Lapor'),

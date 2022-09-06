@@ -10,7 +10,8 @@ import 'package:sipudak/pages/peraturan_hukum.dart';
 import 'package:sipudak/widget/my_headerInfo.dart';
 
 class InfoScreen extends StatelessWidget {
-  const InfoScreen({Key? key}) : super(key: key);
+  final idUser;
+  InfoScreen({Key? key, this.idUser}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +69,8 @@ class InfoScreen extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Pelaporan()));
+                                    builder: (context) =>
+                                        Pelaporan(idUser: idUser)));
                           },
                           // link ke halaman form pelaporan
                         ),
