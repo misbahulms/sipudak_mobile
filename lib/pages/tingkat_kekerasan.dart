@@ -1,8 +1,16 @@
 import 'dart:math' as math;
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
+// import 'package:sipudak/widget/my_header.dart';
+import 'package:sipudak/theme.dart';
+import 'package:sipudak/widget/my_headerPp.dart';
+
+import 'package:native_pdf_view/native_pdf_view.dart';
+import 'package:flutter/material.dart';
+// import 'package:latlong2/latlong.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:sipudak/theme.dart';
+import 'package:sipudak/widget/my_headerPp.dart';
 
 // void main() {
 //   runApp(KekerasanChart());
@@ -421,18 +429,74 @@ class _KekerasanChartState extends State<KekerasanChart> {
     //   ),
     // );
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Data Kasus Kekerasan"),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                key = key + 1;
-              });
-            },
-            child: Text("Reload".toUpperCase()),
-          ),
-        ],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(150.0),
+        child: ClipPath(
+            clipper: MyClipper(),
+            child: Container(
+                height: 450,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: yellowColor,
+                ),
+                child:
+                    //  AppBar(
+                    // elevation: 0.0,
+                    // backgroundColor: Colors.white,
+                    // title:
+                    Container(
+                        alignment: Alignment.bottomCenter,
+                        padding: EdgeInsets.only(left: 20, right: 20, top: 0),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            // crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                  margin: EdgeInsets.only(top: 60, left: 10),
+                                  alignment: Alignment.topLeft,
+                                  child: IconButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //       builder: (context) => Beranda(),
+                                        //     ));
+                                      },
+                                      icon: Icon(Icons.arrow_back_outlined),
+                                      color: Colors.white,
+                                      iconSize: 30)),
+                              Text(
+                                "Data Kasus Kekerasan",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: Colors.white),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    key = key + 1;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.refresh,
+                                  size: 30,
+                                  color: blueColor,
+                                ),
+                              ),
+                            ])))),
+        // title: Text("Data Kasus Kekerasan"),
+        // actions: [
+        //   ElevatedButton(
+        //     onPressed: () {
+        //       setState(() {
+        //         key = key + 1;
+        //       });
+        //     },
+        //     child: Text("Reload".toUpperCase()),
+        //   ),
+        // ],
       ),
       body: LayoutBuilder(
         builder: (_, constraints) {
@@ -473,37 +537,20 @@ class _KekerasanChartState extends State<KekerasanChart> {
   }
 }
 
+class MyClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0, size.height - 80);
+    path.quadraticBezierTo(
+        size.width / 2, size.height, size.width, size.height - 80);
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
 
-// class HomePage2 extends StatelessWidget {
-//   HomePage2({Key? key}) : super(key: key);
-
-//   final dataMap = <String, double>{
-//     "Flutter": 5,
-//   };
-
-//   final colorList = <Color>[
-//     Colors.greenAccent,
-//   ];
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text("Pie Chart 1"),
-//       ),
-//       body: Container(
-//         padding: EdgeInsets.symmetric(horizontal: 16),
-//         child: PieChart(
-//           dataMap: dataMap,
-//           chartType: ChartType.ring,
-//           baseChartColor: Colors.grey[50]!.withOpacity(0.15),
-//           colorList: colorList,
-//           chartValuesOptions: ChartValuesOptions(
-//             showChartValuesInPercentage: true,
-//           ),
-//           totalValue: 20,
-//         ),
-//       ),
-//     );
-//   }
-// }
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return false;
+  }
+}

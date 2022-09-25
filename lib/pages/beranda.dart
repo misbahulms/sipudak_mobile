@@ -18072,7 +18072,7 @@ class _BerandaState extends State<Beranda> {
                                 text: "Kasus Terbaru\n",
                                 style: kTitleTextstyle),
                             TextSpan(
-                                text: "update terbaru desember 2021",
+                                text: "update kasus terbaru",
                                 style: lightTextStyle.copyWith(
                                     color: greyLightColor)),
                           ])),
@@ -18157,7 +18157,11 @@ class _BerandaState extends State<Beranda> {
                                   MaterialPageRoute(
                                       builder: (context) => KekerasanChart()));
                             },
-                            child: const Text('Selengkapnya'),
+                            child: Text('Selengkapnya',
+                                style: boldTextStyle.copyWith(
+                                    color: blueColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600)),
                           ),
                         ],
                       ),

@@ -31,66 +31,25 @@ class Anak extends StatelessWidget {
                 ),
                 ListTile(
                   title: Text(
-                    "1. Fisik",
+                    "1. Hukum Menelantarkan Anak dan Sanksi Pidananya",
                     style: boldTextStyle,
                   ),
                   subtitle: Text(
-                      "Kekerasan fisik adalah perbuatan yang mengakibatkan rasa sakit atay luka berat (pasal 6 undang-undang nomor 23 tahun 2004 tentang penghapusan kekerasan dalam rumah tangga). Contoh : memukul, menampar, menjambak, menendang, menusuk, membakar, menyabet, menyulut dengan rokok, melempar benda kearah tubuh korban "),
+                      "Pasal 59 UU No. 23 Tahun 2022 tentang Perlindungan Anak. Pemerintah dan lembaga negara lainnya berkewajiban dan bertanggung jawab memberikan perlindungan hukum kepada anak dalam situasi darurat, anak yang berhadapan dengan hukum, anak dari kelompok minoritas, dan terisolasi, anak tereksploitasi secara ekonomi dan/atau seksual, anak yang diperdagangkan, anak yang menjadi penyalahgunaan narkotika, alkohol, psikotropika, dan zat adiktif lainnya, anak korban penculikan penjualan dan perdagangan, anak korban kekerasan baik fisik dan/atau mental, anak yang menyandang cacat, dan anak korban pelaku penelantaran. Seorang anak dikatakan terlantar apabila anak tersebut tidak terpenuhi kebutuhan dasarnya dengan wajar, baik secara rohani, jasmani, maupun sosial. Anak yang ditelantarkan bukan disebabkan oleh ketidakhadiran orang tua, melainkan hak yang seharusnya dimiliki oleh anak tidak terpenuhi karena suatu alasan dari kedua orang tua. Menelantarkan anak dikategorikan sebagai suatu tindakan kekerasan dan merupakan delik dengan perbuatan dilarang oleh peraturan hukum pidana Indonesia. Bagi seseorang yang menelantarkan anak, maka akan dikenakan sanksi pidana."),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 ListTile(
                   title: Text(
-                    "2. Psikis",
+                    "2. Penganiayaan Anak ",
                     style: boldTextStyle,
                   ),
                   subtitle: Text(
-                      "Kekerasan Psikis adalah perbuatan yang mengakibatkan ketakukatan, hilangnya rasa percaya diri, hilangnya kemampuan untuk bertindak, rasa tidak berdaya dan/atau penderitaan psikis berat pada seseorang (pasal 7 dalam undang-undang nomor 23 tahun 2004 tentang penghapusan kekerasan dalam rumah tangga). Contoh: tindakan pengendalian, manipulasi, eksploitasi, kesewenangan, perendahan, dan penghinaan dalam bentuk pelarangan, pemaksaan dan isolasi sosial. "),
+                      "Keberadaan siswa di sekolah dilindungi Undang-Undang Nomor 35 Tahun 2002 tentang Perlindungan Anak. Pasal 54 ayat (1) UU35/2014 menyatakan, Anak di dalam dan dilingkungan satuan pendidikan wajib mendapatkan perlindungan dari tindak kekerasan fisik, psikis, kejahatan seksual, dan kejahatan lainnya yang dilakukan oleh pendidik, tenaga kependidikan, sesama peserta didik, dan/atau pihak lain. Kemudian ayat (2) menyatakan, Perlindungan sebagaimana dimaksud pada ayat (1) dilakukan oleh pendidik, tenaga kependidikan, aparat pemerintah, dan/atau Masyarakat. Selain itu, pasal 76C UU No.35 Tahun 2014 juga secara tegas mengatur setiap orang dilarang menempatkan, membiarkan, melakukan, menyuruh melakukan, atau turut serta melakukan kekerasan terhadap anak. Pasal 80 UU 35/2014 mengatur mengenai pemberian sanksi bagi yang melanggarnya. Pasal 80 ayat (1) menyatakan, setiap Orag yang melanggar ketentuan sebagaimana dumaksud dalam Pasal 76C, dipidana dengan penjara paling lama 3 (tiga) tahun 6 (enam) bulan dan/atau denda paling banyak Rp72.000.000 (tujuh puluh dua juta rupiah."),
                 ),
                 SizedBox(
                   height: 10,
-                ),
-                ListTile(
-                  title: Text(
-                    "3. Seksual",
-                    style: boldTextStyle,
-                  ),
-                  subtitle: Text(
-                      "Kekerasan Seksual adalah perbuatan pemaksaan hubungan seksual melalui ancaman, intimidasi atau kekuatan fisik, memaksa hubungan seksual dengan orang lain. Contoh: perbuatan merendahkan, menghina, melecehkan, dan/atau menyerang tubuh atau fungsi reproduksi seseorang, karena ketimpangan relasi kuasa atau gender yang berakibat penderitaan psikis atau fisik."),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ListTile(
-                  title: Text(
-                    "4. Eksploitasi",
-                    style: boldTextStyle,
-                  ),
-                  subtitle: Text(
-                      "Kekerasan Eksploitasi adalah perbuatan yang tujuannya untuk mengambil suatu keuntungan atau memanfaatkan sesuatu dengan berlebih dan sewenang-wenang. Perbuatan eksploitasi ini seringkali berdampak pada kerugian pada pihak lain, baik manusia maupun lingkungan. Contoh: merampas hak-hak perempuan atau anak."),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ListTile(
-                  title: Text(
-                    "5. Trafficking",
-                    style: boldTextStyle,
-                  ),
-                  subtitle: Text(
-                      "Kekerasan Trafficking adalah perbuatan, perekrutan, pengangkutan, penampungan, pengiriman, pemindahan, atau penerimaan seseorang dengan ancaman kekerasan, penggunaan kekerasan, penculikan, penyekapan, pemalsuan, penipuan, penyalahgunaan kekuasaan, penjeratan utang atau memberi bayaran atau manfaat, sehingga memperoleh persetujuan dari orang yang memegang kendali atas orang lain tersebut."),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ListTile(
-                  title: Text(
-                    "6. Penelantaran",
-                    style: boldTextStyle,
-                  ),
-                  subtitle: Text(
-                      "Kekerasan Penelantaran adalah perbuatan, ancaman untuk melakukan perbuatan, pemaksaan atau perampasan kemerdekaan secara melawan hukum dalam lingkungan rumah tangga(pasa 1 undang-undang PDKRT). KDRT tidak hanya dalam bentuk fisik, seksual dan psikologis, namun juga dalam bentuk penelantaran rumah tangga."),
                 ),
               ],
             )),

@@ -307,498 +307,518 @@ class _PelaporanState extends State<Pelaporan> {
   Widget build(BuildContext context) {
     var whiteColor;
     return Scaffold(
-      body: ListView(
-        children: [
-          MyHeaderPL(
-              image: "assets/sad-little.png",
-              texttop: "Laporkan Tindak Kekerasan",
-              textbottom: "Lindungi Perempuan dan Anak"),
-          // Container(
-          //   child: LogoSpace(
-          //     child: SizedBox(
-          //       height: 2,
-          //     ),
-          //   ),
-          // ),
-          _isLoading
-              ? Center(child: CircularProgressIndicator())
-              : Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.all(24),
-                  child: Form(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Form Pelaporan",
-                          style: regulerTextStyle.copyWith(fontSize: 20),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "Silakan Isi Data Pelaporan Anda",
-                          style: regulerTextStyle.copyWith(
-                              fontSize: 15, color: greyBoldColor),
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        // TextField
-                        // Container(
-                        //   padding: EdgeInsets.only(left: 16),
-                        //   height: 50,
-                        //   decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(20),
-                        //       boxShadow: [
-                        //         BoxShadow(
-                        //             color: kShadowColor,
-                        //             offset: Offset(0, 1),
-                        //             blurRadius: 1,
-                        //             spreadRadius: 0)
-                        //       ],
-                        //       color: whiteColor),
-                        //   width: MediaQuery.of(context).size.width,
-                        //   child: TextField(
-                        //     controller: _korbanKekerasan,
-                        //     decoration: InputDecoration(
-                        //         border: InputBorder.none,
-                        //         hintText: 'Korban Kekerasan',
-                        //         hintStyle: lightTextStyle.copyWith(
-                        //             fontSize: 15, color: greyLightColor)),
-                        //   ),
-                        // ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              borderRadius: BorderRadius.circular(30)),
-                          child: DropdownButton<String>(
-                            items: <String>['Perempuan', 'Anak']
-                                .map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            value: selectedkorban,
-                            isExpanded: true,
-                            underline: Container(),
-                            hint: Text("Korban Kekerasan"),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedkorban = value;
-                              });
-                            },
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 16),
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: kShadowColor,
-                                    offset: Offset(0, 1),
-                                    blurRadius: 4,
-                                    spreadRadius: 0)
-                              ],
-                              color: whiteColor),
-                          width: MediaQuery.of(context).size.width,
-                          child: TextField(
-                            controller: _tempatKejadian,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Tempat Kejadian',
-                                hintStyle: lightTextStyle.copyWith(
-                                    fontSize: 15, color: greyLightColor)),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 16),
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: kShadowColor,
-                                    offset: Offset(0, 1),
-                                    blurRadius: 4,
-                                    spreadRadius: 0)
-                              ],
-                              color: whiteColor),
-                          width: MediaQuery.of(context).size.width,
-                          child: TextField(
-                            controller: _alamatKejadian,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Alamat Kejadian',
-                                hintStyle: lightTextStyle.copyWith(
-                                    fontSize: 15, color: greyLightColor)),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 16),
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: kShadowColor,
-                                    offset: Offset(0, 1),
-                                    blurRadius: 4,
-                                    spreadRadius: 0)
-                              ],
-                              color: whiteColor),
-                          width: MediaQuery.of(context).size.width,
-                          child: TextField(
-                            controller: _hubunganDgnKorban,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Hubungan Dengan Korban',
-                                hintStyle: lightTextStyle.copyWith(
-                                    fontSize: 15, color: greyLightColor)),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              _selectDate(context);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.only(left: 16),
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: kShadowColor,
-                                        offset: Offset(0, 1),
-                                        blurRadius: 4,
-                                        spreadRadius: 0)
-                                  ],
-                                  color: whiteColor),
-                              width: MediaQuery.of(context).size.width,
-                              child: TextField(
-                                enabled: false,
-                                controller: _tanggalPelaporan,
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Tanggal Pelaporan',
-                                    hintStyle: lightTextStyle.copyWith(
-                                        fontSize: 15, color: greyLightColor)),
+      body: _isLoading
+          ? Container(
+              margin: EdgeInsets.only(top: 23.3),
+              child: Column(
+                children: [
+                  MyHeaderPL(
+                      image: "assets/sad-little.png",
+                      texttop: "Laporkan Tindak Kekerasan",
+                      textbottom: "Lindungi Perempuan dan Anak"),
+                  Expanded(child: Center(child: CircularProgressIndicator()))
+                ],
+              ))
+          : ListView(
+              children: [
+                MyHeaderPL(
+                    image: "assets/sad-little.png",
+                    texttop: "Laporkan Tindak Kekerasan",
+                    textbottom: "Lindungi Perempuan dan Anak"),
+                // Container(
+                //   child: LogoSpace(
+                //     child: SizedBox(
+                //       height: 2,
+                //     ),
+                //   ),
+                // ),
+                _isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.all(24),
+                        child: Form(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Form Pelaporan",
+                                style: regulerTextStyle.copyWith(fontSize: 20),
                               ),
-                            )),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 16),
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: kShadowColor,
-                                    offset: Offset(0, 1),
-                                    blurRadius: 4,
-                                    spreadRadius: 0)
-                              ],
-                              color: whiteColor),
-                          width: MediaQuery.of(context).size.width,
-                          child: TextField(
-                            controller: _alamatPelapor,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Alamat Pelapor',
-                                hintStyle: lightTextStyle.copyWith(
-                                    fontSize: 15, color: greyLightColor)),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 16),
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: kShadowColor,
-                                    offset: Offset(0, 1),
-                                    blurRadius: 4,
-                                    spreadRadius: 0)
-                              ],
-                              color: whiteColor),
-                          width: MediaQuery.of(context).size.width,
-                          child: TextField(
-                            controller: _nomorHp,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Nomor Hp',
-                                hintStyle: lightTextStyle.copyWith(
-                                    fontSize: 15, color: greyLightColor)),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              borderRadius: BorderRadius.circular(30)),
-                          child: DropdownButton<Map>(
-                            // onTap: () async {
-                            //   await fetchDesa(context);
-                            // },
-                            items:
-                                // !_isLoading
-                                //     ?
-                                _desaList.map((value) {
-                              return DropdownMenuItem<Map>(
-                                value: value,
-                                child: Text(value['nama_desa']),
-                              );
-                            }).toList(),
-                            // : <String>['Perempuan', 'Anak'].map((String value) {
-                            //     return DropdownMenuItem<String>(
-                            //       value: value,
-                            //       child: Text(value),
-                            //     );
-                            //   }).toList(),
-                            value: selectedDesa,
-                            isExpanded: true,
-                            underline: Container(),
-                            hint: Text("Pilih Desa"),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedDesa = value;
-                              });
-                            },
-                          ),
-                        ),
-                        // Container(
-                        //   padding: EdgeInsets.only(left: 16),
-                        //   height: 50,
-                        //   decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(20),
-                        //       boxShadow: [
-                        //         BoxShadow(
-                        //             color: kShadowColor,
-                        //             offset: Offset(0, 1),
-                        //             blurRadius: 4,
-                        //             spreadRadius: 0)
-                        //       ],
-                        //       color: whiteColor),
-                        //   width: MediaQuery.of(context).size.width,
-                        //   child: TextField(
-                        //     controller: _desaKejadian,
-                        //     decoration: InputDecoration(
-                        //         border: InputBorder.none,
-                        //         hintText: 'Desa Kejadian',
-                        //         hintStyle: lightTextStyle.copyWith(
-                        //             fontSize: 15, color: greyLightColor)),
-                        //   ),
-                        // ),
-                        SizedBox(
-                          height: 30,
-                        ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                "Silakan Isi Data Pelaporan Anda",
+                                style: regulerTextStyle.copyWith(
+                                    fontSize: 15, color: greyBoldColor),
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              // TextField
+                              // Container(
+                              //   padding: EdgeInsets.only(left: 16),
+                              //   height: 50,
+                              //   decoration: BoxDecoration(
+                              //       borderRadius: BorderRadius.circular(20),
+                              //       boxShadow: [
+                              //         BoxShadow(
+                              //             color: kShadowColor,
+                              //             offset: Offset(0, 1),
+                              //             blurRadius: 1,
+                              //             spreadRadius: 0)
+                              //       ],
+                              //       color: whiteColor),
+                              //   width: MediaQuery.of(context).size.width,
+                              //   child: TextField(
+                              //     controller: _korbanKekerasan,
+                              //     decoration: InputDecoration(
+                              //         border: InputBorder.none,
+                              //         hintText: 'Korban Kekerasan',
+                              //         hintStyle: lightTextStyle.copyWith(
+                              //             fontSize: 15, color: greyLightColor)),
+                              //   ),
+                              // ),
+                              Container(
+                                padding: EdgeInsets.only(left: 10, right: 10),
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[100],
+                                    borderRadius: BorderRadius.circular(30)),
+                                child: DropdownButton<String>(
+                                  items: <String>['Perempuan', 'Anak']
+                                      .map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  value: selectedkorban,
+                                  isExpanded: true,
+                                  underline: Container(),
+                                  hint: Text("Korban Kekerasan"),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedkorban = value;
+                                    });
+                                  },
+                                ),
+                              ),
 
-                        Container(
-                          padding: EdgeInsets.only(left: 16),
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: kShadowColor,
-                                    offset: Offset(0, 1),
-                                    blurRadius: 4,
-                                    spreadRadius: 0)
-                              ],
-                              color: whiteColor),
-                          width: MediaQuery.of(context).size.width,
-                          child: TextField(
-                            controller: _kronologisKejadian,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Kronologis Kejadian',
-                                hintStyle: lightTextStyle.copyWith(
-                                    fontSize: 15, color: greyLightColor)),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 10),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Tambahkan Foto Korban",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        // imageKorban(),
-                        Center(
-                          child: Stack(
-                            children: <Widget>[
-                              image != null
-                                  ? (kIsWeb
-                                      ? CircleAvatar(
-                                          radius: 80.0,
-                                          backgroundImage:
-                                              NetworkImage(image!.path),
-                                        )
-                                      : CircleAvatar(
-                                          radius: 80.0,
-                                          backgroundImage:
-                                              FileImage(File(image!.path)),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 16),
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: kShadowColor,
+                                          offset: Offset(0, 1),
+                                          blurRadius: 4,
+                                          spreadRadius: 0)
+                                    ],
+                                    color: whiteColor),
+                                width: MediaQuery.of(context).size.width,
+                                child: TextField(
+                                  controller: _tempatKejadian,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Tempat Kejadian',
+                                      hintStyle: lightTextStyle.copyWith(
+                                          fontSize: 15, color: greyLightColor)),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 16),
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: kShadowColor,
+                                          offset: Offset(0, 1),
+                                          blurRadius: 4,
+                                          spreadRadius: 0)
+                                    ],
+                                    color: whiteColor),
+                                width: MediaQuery.of(context).size.width,
+                                child: TextField(
+                                  controller: _alamatKejadian,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Alamat Kejadian',
+                                      hintStyle: lightTextStyle.copyWith(
+                                          fontSize: 15, color: greyLightColor)),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 16),
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: kShadowColor,
+                                          offset: Offset(0, 1),
+                                          blurRadius: 4,
+                                          spreadRadius: 0)
+                                    ],
+                                    color: whiteColor),
+                                width: MediaQuery.of(context).size.width,
+                                child: TextField(
+                                  controller: _hubunganDgnKorban,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Hubungan Dengan Korban',
+                                      hintStyle: lightTextStyle.copyWith(
+                                          fontSize: 15, color: greyLightColor)),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              GestureDetector(
+                                  onTap: () {
+                                    _selectDate(context);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.only(left: 16),
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: kShadowColor,
+                                              offset: Offset(0, 1),
+                                              blurRadius: 4,
+                                              spreadRadius: 0)
+                                        ],
+                                        color: whiteColor),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: TextField(
+                                      enabled: false,
+                                      controller: _tanggalPelaporan,
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Tanggal Pelaporan',
+                                          hintStyle: lightTextStyle.copyWith(
+                                              fontSize: 15,
+                                              color: greyLightColor)),
+                                    ),
+                                  )),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 16),
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: kShadowColor,
+                                          offset: Offset(0, 1),
+                                          blurRadius: 4,
+                                          spreadRadius: 0)
+                                    ],
+                                    color: whiteColor),
+                                width: MediaQuery.of(context).size.width,
+                                child: TextField(
+                                  controller: _alamatPelapor,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Alamat Pelapor',
+                                      hintStyle: lightTextStyle.copyWith(
+                                          fontSize: 15, color: greyLightColor)),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 16),
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: kShadowColor,
+                                          offset: Offset(0, 1),
+                                          blurRadius: 4,
+                                          spreadRadius: 0)
+                                    ],
+                                    color: whiteColor),
+                                width: MediaQuery.of(context).size.width,
+                                child: TextField(
+                                  controller: _nomorHp,
+                                  keyboardType: TextInputType.phone,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Nomor Hp',
+                                      hintStyle: lightTextStyle.copyWith(
+                                          fontSize: 15, color: greyLightColor)),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 10, right: 10),
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[100],
+                                    borderRadius: BorderRadius.circular(30)),
+                                child: DropdownButton<Map>(
+                                  // onTap: () async {
+                                  //   await fetchDesa(context);
+                                  // },
+                                  items:
+                                      // !_isLoading
+                                      //     ?
+                                      _desaList.map((value) {
+                                    return DropdownMenuItem<Map>(
+                                      value: value,
+                                      child: Text(value['nama_desa']),
+                                    );
+                                  }).toList(),
+                                  // : <String>['Perempuan', 'Anak'].map((String value) {
+                                  //     return DropdownMenuItem<String>(
+                                  //       value: value,
+                                  //       child: Text(value),
+                                  //     );
+                                  //   }).toList(),
+                                  value: selectedDesa,
+                                  isExpanded: true,
+                                  underline: Container(),
+                                  hint: Text("Pilih Desa"),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedDesa = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                              // Container(
+                              //   padding: EdgeInsets.only(left: 16),
+                              //   height: 50,
+                              //   decoration: BoxDecoration(
+                              //       borderRadius: BorderRadius.circular(20),
+                              //       boxShadow: [
+                              //         BoxShadow(
+                              //             color: kShadowColor,
+                              //             offset: Offset(0, 1),
+                              //             blurRadius: 4,
+                              //             spreadRadius: 0)
+                              //       ],
+                              //       color: whiteColor),
+                              //   width: MediaQuery.of(context).size.width,
+                              //   child: TextField(
+                              //     controller: _desaKejadian,
+                              //     decoration: InputDecoration(
+                              //         border: InputBorder.none,
+                              //         hintText: 'Desa Kejadian',
+                              //         hintStyle: lightTextStyle.copyWith(
+                              //             fontSize: 15, color: greyLightColor)),
+                              //   ),
+                              // ),
+                              SizedBox(
+                                height: 30,
+                              ),
+
+                              Container(
+                                padding: EdgeInsets.only(left: 16),
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: kShadowColor,
+                                          offset: Offset(0, 1),
+                                          blurRadius: 4,
+                                          spreadRadius: 0)
+                                    ],
+                                    color: whiteColor),
+                                width: MediaQuery.of(context).size.width,
+                                child: TextField(
+                                  controller: _kronologisKejadian,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Kronologis Kejadian',
+                                      hintStyle: lightTextStyle.copyWith(
+                                          fontSize: 15, color: greyLightColor)),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(bottom: 10),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Tambahkan Foto Korban",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              // imageKorban(),
+                              Center(
+                                child: Stack(
+                                  children: <Widget>[
+                                    image != null
+                                        ? (kIsWeb
+                                            ? CircleAvatar(
+                                                radius: 80.0,
+                                                backgroundImage:
+                                                    NetworkImage(image!.path),
+                                              )
+                                            : CircleAvatar(
+                                                radius: 80.0,
+                                                backgroundImage: FileImage(
+                                                    File(image!.path)),
+                                              ))
+                                        : CircleAvatar(
+                                            radius: 80.0,
+                                            backgroundImage:
+                                                AssetImage("assets/profil.png"),
+                                          ),
+                                    Positioned(
+                                        bottom: 20,
+                                        right: 20,
+                                        child: InkWell(
+                                          onTap: () {
+                                            FocusScope.of(context).unfocus();
+                                            showModalBottomSheet(
+                                                context: context,
+                                                builder: (context) => Wrap(
+                                                      children: [
+                                                        ListTile(
+                                                          leading: Icon(
+                                                              Icons.camera_alt),
+                                                          title: Text("Kamera"),
+                                                          onTap: () async {
+                                                            try {
+                                                              var result = await ImageServices
+                                                                  .selectImage(
+                                                                      isGallery:
+                                                                          false);
+                                                              if (result !=
+                                                                  null) {
+                                                                setState(() {
+                                                                  image =
+                                                                      result;
+                                                                });
+                                                                print(image!
+                                                                    .path);
+                                                                print(image!
+                                                                    .path
+                                                                    .split('/')
+                                                                    .last);
+                                                                Navigator.pop(
+                                                                    context);
+                                                              }
+                                                            } catch (e) {
+                                                              print(e);
+                                                              Navigator.pop(
+                                                                  context);
+                                                            }
+                                                          },
+                                                        ),
+                                                        ListTile(
+                                                          leading: Icon(
+                                                              Icons.perm_media),
+                                                          title: Text("Galeri"),
+                                                          onTap: () async {
+                                                            try {
+                                                              var result = await ImageServices
+                                                                  .selectImage(
+                                                                      isGallery:
+                                                                          true);
+                                                              if (result !=
+                                                                  null) {
+                                                                setState(() {
+                                                                  image =
+                                                                      result;
+                                                                });
+                                                                print(image!
+                                                                    .path);
+                                                                Navigator.pop(
+                                                                    context);
+                                                              }
+                                                            } catch (e) {
+                                                              print(e);
+                                                              Navigator.pop(
+                                                                  context);
+                                                            }
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ));
+                                          },
+                                          child: Container(
+                                            width: 35,
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                shape: BoxShape.circle),
+                                            child: Center(
+                                              child: Icon(
+                                                Icons.camera_alt,
+                                                color: Colors.teal,
+                                                size: 28.0,
+                                              ),
+                                            ),
+                                          ),
                                         ))
-                                  : CircleAvatar(
-                                      radius: 80.0,
-                                      backgroundImage:
-                                          AssetImage("assets/profil.png"),
-                                    ),
-                              Positioned(
-                                  bottom: 20,
-                                  right: 20,
-                                  child: InkWell(
-                                    onTap: () {
-                                      FocusScope.of(context).unfocus();
-                                      showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => Wrap(
-                                                children: [
-                                                  ListTile(
-                                                    leading:
-                                                        Icon(Icons.camera_alt),
-                                                    title: Text("Kamera"),
-                                                    onTap: () async {
-                                                      try {
-                                                        var result =
-                                                            await ImageServices
-                                                                .selectImage(
-                                                                    isGallery:
-                                                                        false);
-                                                        if (result != null) {
-                                                          setState(() {
-                                                            image = result;
-                                                          });
-                                                          print(image!.path);
-                                                          print(image!.path
-                                                              .split('/')
-                                                              .last);
-                                                          Navigator.pop(
-                                                              context);
-                                                        }
-                                                      } catch (e) {
-                                                        print(e);
-                                                        Navigator.pop(context);
-                                                      }
-                                                    },
-                                                  ),
-                                                  ListTile(
-                                                    leading:
-                                                        Icon(Icons.perm_media),
-                                                    title: Text("Galeri"),
-                                                    onTap: () async {
-                                                      try {
-                                                        var result =
-                                                            await ImageServices
-                                                                .selectImage(
-                                                                    isGallery:
-                                                                        true);
-                                                        if (result != null) {
-                                                          setState(() {
-                                                            image = result;
-                                                          });
-                                                          print(image!.path);
-                                                          Navigator.pop(
-                                                              context);
-                                                        }
-                                                      } catch (e) {
-                                                        print(e);
-                                                        Navigator.pop(context);
-                                                      }
-                                                    },
-                                                  ),
-                                                ],
-                                              ));
+                                  ],
+                                ),
+                              ),
+
+                              SizedBox(
+                                height: 30,
+                              ),
+
+                              Container(
+                                // margin: EdgeInsets.symmetric(horizontal: 50),
+                                width: MediaQuery.of(context).size.width,
+                                height: 50,
+                                child: ElevatedButton(
+                                    onPressed: () async {
+                                      await _validateAndSubmit(context);
                                     },
-                                    child: Container(
-                                      width: 35,
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          shape: BoxShape.circle),
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.camera_alt,
-                                          color: Colors.teal,
-                                          size: 28.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ))
+                                    child: _isLoading
+                                        ? Center(
+                                            child: CircularProgressIndicator(
+                                            color: Colors.black,
+                                          ))
+                                        : Text('Laporkan !',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 17)),
+                                    style: ElevatedButton.styleFrom(
+                                        primary: yellowColor,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20)))),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
                             ],
                           ),
-                        ),
-
-                        SizedBox(
-                          height: 30,
-                        ),
-
-                        Container(
-                          // margin: EdgeInsets.symmetric(horizontal: 50),
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                await _validateAndSubmit(context);
-                              },
-                              child: _isLoading
-                                  ? Center(
-                                      child: CircularProgressIndicator(
-                                      color: Colors.black,
-                                    ))
-                                  : Text('Laporkan !',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17)),
-                              style: ElevatedButton.styleFrom(
-                                  primary: yellowColor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(20)))),
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                      ],
-                    ),
-                  ))
-        ],
-      ),
+                        ))
+              ],
+            ),
     );
   }
 
@@ -831,7 +851,7 @@ class _PelaporanState extends State<Pelaporan> {
       setState(() {
         pickedDate = picked;
         _tanggalPelaporan.text =
-            "${DateFormat("EEEE, d MMMM yyyy").format(pickedDate)}";
+            "${DateFormat("EEEE, d MMMM yyyy", "id_ID").format(pickedDate)}";
       });
   }
 

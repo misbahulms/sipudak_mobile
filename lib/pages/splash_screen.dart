@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sipudak/home.dart';
+import 'package:sipudak/pages/intro_slider.dart';
 import 'package:sipudak/pages/register.dart';
 import 'login.dart';
 import 'package:sipudak/widget/button_primary.dart';
@@ -23,15 +24,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
   startTime() async {
     return Timer(
-        Duration(seconds: 3),
-        () => userId.isEmpty
-            ? Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (BuildContext context) => Login()))
-            : Navigator.pushReplacement(
+        Duration(seconds: 5),
+        () =>
+            // userId.isEmpty
+            //     ?
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        HomePage(idUser: int.parse(userId)))));
+                    builder: (BuildContext context) => IntroScreen())));
+    // : Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (BuildContext context) =>
+    //             HomePage(idUser: int.parse(userId)))));
   }
 
   Future checkLogin() async {

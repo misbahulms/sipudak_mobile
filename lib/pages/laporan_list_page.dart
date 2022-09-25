@@ -9,6 +9,7 @@ import 'package:sipudak/widget/my_header.dart';
 import 'package:sipudak/pages/peraturan_hukum.dart';
 import 'package:sipudak/widget/my_headerInfo.dart';
 import './detail_laporan_list.dart';
+import 'package:intl/intl.dart';
 
 import 'dart:io';
 import 'package:dio/dio.dart';
@@ -121,16 +122,20 @@ class _LaporanListPageState extends State<LaporanListPage> {
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
                       children: _jumlahKasus.map((e) {
+                    // _jumlahKasus.sort(
+                    //     (a, b) => b['id_pelapor'].compareTo(a['id_pelapor']));
                     return News(
                       image: "assets/law.png",
-                      judul: "Farhan",
+                      judul:
+                          "${DateFormat("EEEE, d MMMM yyyy", "id_ID").format(DateTime.parse(e["tanggal_pelaporan"]))}",
                       title:
                           "Kronologis kejadian:\n${e['kronologis_kejadian']}",
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DetailLaporanList(data: e)));
+                                builder: (context) =>
+                                    DetailLaporanList(data: e)));
                       },
                     );
                   }).toList()))

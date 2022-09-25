@@ -5,6 +5,7 @@ import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:sipudak/pages/login.dart';
 import 'package:sipudak/services/image_services.dart';
+import 'package:intl/intl.dart';
 import 'package:sipudak/theme.dart';
 import 'package:sipudak/widget/button_primary.dart';
 import 'package:sipudak/widget/logo.dart';
@@ -56,7 +57,7 @@ class _DetailLaporanListState extends State<DetailLaporanList> {
     _hubunganDgnKorban.text =
         "Hubungan dengan Korban:  ${widget.data['hubungan_dengan_korban']}";
     _tanggalDetailLaporanList.text =
-        "Tanggal Pelaporan:  ${widget.data['tanggal_pelaporan']}";
+        "Tanggal: '${DateFormat("EEEE, d MMMM yyyy", "id_ID").format(DateTime.parse('${widget.data['tanggal_pelaporan']}'))}";
     _alamatPelapor.text = "Alamat Pelapor:  ${widget.data['alamat_pelapor']}";
     _nomorHp.text = "Nomor HP:  ${widget.data['no_hp']}";
     _desaKejadian.text = "Desa Kejadian:  ${widget.data['id_desa']}";
@@ -234,14 +235,14 @@ class _DetailLaporanListState extends State<DetailLaporanList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Detil Laporan",
+                      "Detail Laporan",
                       style: regulerTextStyle.copyWith(fontSize: 20),
                     ),
                     SizedBox(
                       height: 8,
                     ),
                     Text(
-                      "Berikut adalah detil laporan",
+                      "Berikut adalah detail laporan",
                       style: regulerTextStyle.copyWith(
                           fontSize: 15, color: greyBoldColor),
                     ),

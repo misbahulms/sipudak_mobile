@@ -8,6 +8,8 @@ import 'package:sipudak/theme.dart';
 import 'package:sipudak/widget/my_header.dart';
 import 'package:sipudak/pages/peraturan_hukum.dart';
 import 'package:sipudak/widget/my_headerInfo.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:io';
 
 class InfoScreen extends StatelessWidget {
   final idUser;
@@ -91,8 +93,10 @@ class InfoScreen extends StatelessWidget {
                       judul: "Panduan Pelaporan",
                       title: "Laporkan tindak kekerasan yang sedang anda alami",
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Panduan()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PanduanAplikasiPage()));
                       },
                     ),
                     News(
@@ -109,8 +113,23 @@ class InfoScreen extends StatelessWidget {
                     ),
                     News(
                       image: "assets/rafiki.png",
-                      judul: "Jangan Takut Lapor",
+                      judul: "Konsultasi Kekerasan",
                       title: "Laporkan tindak kekerasan yang sedang anda alami",
+                      onTap: () async {
+                        var whatsapp = "+628981385790";
+                        var whatsappAndroid = Uri.parse(
+                            "whatsapp://send?phone=$whatsapp&text=Halo Admin saya ingin konsultasi");
+                        if (await canLaunchUrl(whatsappAndroid)) {
+                          await launchUrl(whatsappAndroid);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  "WhatsApp is not installed on the device"),
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ],
                 ))

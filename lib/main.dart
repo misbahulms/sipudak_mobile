@@ -7,9 +7,14 @@ import 'package:sipudak/pages/register.dart';
 import 'package:sipudak/pages/splash_screen.dart';
 import 'package:sipudak/pages/tingkat_kekerasan.dart';
 import 'package:sipudak/theme.dart';
-import "package:dcdg/dcdg.dart";
+// import "package:dcdg/dcdg.dart";
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -17,6 +22,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [const Locale('id')],
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: yellowColor),
       home: SplashScreen(),
